@@ -5,8 +5,8 @@
 #include "MyOverwatchProjectile.h"
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
-#include "Kismet/HeadMountedDisplayFunctionLibrary.h"
 #include "MotionControllerComponent.h"
+#include "CharacterSkillCaster.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -52,14 +52,10 @@ AMyOverwatchCharacter::AMyOverwatchCharacter()
 	// Default offset from the character location for projectiles to spawn
 	GunOffset = FVector(100.0f, 0.0f, 10.0f);
 
-	// Note: The ProjectileClass and the skeletal mesh/anim blueprints for Mesh1P, FP_Gun, and VR_Gun 
-	// are set in the derived blueprint asset named MyCharacter to avoid direct content references in C++.
+	//Character Skill Caster
+	CharacterSkillCaster = CreateDefaultSubobject<UCharacterSkillCaster>(TEXT("CharacterSkillCaster"));
 
-	// Create a gun and attach it to the right-hand VR controller.
-	// Create a gun mesh component
 
-	// Uncomment the following line to turn motion controllers on by default:
-	//bUsingMotionControllers = true;
 }
 
 void AMyOverwatchCharacter::BeginPlay()
