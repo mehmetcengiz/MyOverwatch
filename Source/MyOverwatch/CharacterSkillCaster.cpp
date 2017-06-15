@@ -24,5 +24,23 @@ void UCharacterSkillCaster::BeginPlay()
 	
 }
 
+void UCharacterSkillCaster::PimaryFire(){
+	UE_LOG(LogTemp, Warning, TEXT("Character primary shoot!"));
+
+
+}
+
+void UCharacterSkillCaster::SecondaryFire(){
+}
+
+void UCharacterSkillCaster::AbilityE(){
+}
+
+void UCharacterSkillCaster::AbilityShift(){
+}
+
+void UCharacterSkillCaster::AbilityJump(){
+}
+
 
 

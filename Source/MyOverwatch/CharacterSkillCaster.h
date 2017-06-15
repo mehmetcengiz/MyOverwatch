@@ -20,12 +20,10 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	void PimaryFire();
-	void SecondaryFire();
-	void AbilityE();
-	void AbilityShift();
-	void AbilityJump();
-
-
+	virtual void PimaryFire();
+	virtual void SecondaryFire();
+	virtual void AbilityE();
+	virtual void AbilityShift();
+	virtual void AbilityJump();
 
 };
