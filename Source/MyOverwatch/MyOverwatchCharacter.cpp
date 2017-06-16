@@ -62,7 +62,7 @@ void AMyOverwatchCharacter::BeginPlay()
 {
 	// Call the base class  
 	Super::BeginPlay();
-
+	
 	//Attach gun mesh component to Skeleton, doing it here because the skeleton is not yet created in the constructor
 	FP_Gun->AttachToComponent(Mesh1P, FAttachmentTransformRules(EAttachmentRule::SnapToTarget, true), TEXT("GripPoint"));
 
@@ -88,11 +88,12 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	//InputComponent->BindTouch(EInputEvent::IE_Pressed, this, &AMyOverwatchCharacter::TouchStarted);
-	if (EnableTouchscreenMovement(PlayerInputComponent) == false)
-	{
-		PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AMyOverwatchCharacter::OnFire);
-	}
+	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityE);
+	PlayerInputComponent->BindAction("AbilityQ", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
+	PlayerInputComponent->BindAction("FirePrimary", IE_Pressed, this, &AMyOverwatchCharacter::FirePrimary);
+	PlayerInputComponent->BindAction("FireSecondary", IE_Pressed, this, &AMyOverwatchCharacter::FireSecondary);
+	PlayerInputComponent->BindAction("AbilityUltimate", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
+	
 	
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyOverwatchCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("MoveRight", this, &AMyOverwatchCharacter::MoveRight);
@@ -106,42 +107,48 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AMyOverwatchCharacter::LookUpAtRate);
 }
 
-void AMyOverwatchCharacter::OnFire()
+void AMyOverwatchCharacter::AbilityE(){
+	CharacterSkillCaster->AbilityE();
+}
+
+void AMyOverwatchCharacter::AbilityUltimate(){
+	CharacterSkillCaster->AbilityUltimate();
+	
+}
+
+void AMyOverwatchCharacter::FireSecondary(){
+	CharacterSkillCaster->FireSecondary();	
+}
+
+void AMyOverwatchCharacter::FirePrimary()
 {
+	CharacterSkillCaster->FirePrimary();
 	// try and fire a projectile
-	if (ProjectileClass != NULL)
-	{
+	if (ProjectileClass != NULL) {
+
 		UWorld* const World = GetWorld();
-		if (World != NULL)
-		{
-			if (bUsingMotionControllers)
-			{
-			}
-			else
-			{
-				const FRotator SpawnRotation = GetControlRotation();
-				// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-				const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
-				//Set Spawn Collision Handling Override
-				FActorSpawnParameters ActorSpawnParams;
-				ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+		if (World != NULL) {
+			const FRotator SpawnRotation = GetControlRotation();
+			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
+			const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
-				// spawn the projectile at the muzzle
-				World->SpawnActor<AMyOverwatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-			}
+			//Set Spawn Collision Handling Override
+			FActorSpawnParameters ActorSpawnParams;
+			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+
+			// spawn the projectile at the muzzle
+			World->SpawnActor<AMyOverwatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
 		}
 	}
 
 	// try and play the sound if specified
-	if (FireSound != NULL)
-	{
+	if (FireSound != NULL) {
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
 	}
 
 	// try and play a firing animation if specified
-	if (FireAnimation != NULL)
-	{
+	if (FireAnimation != NULL){
 		// Get the animation object for the arms mesh
 		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
 		if (AnimInstance != NULL)
@@ -149,31 +156,8 @@ void AMyOverwatchCharacter::OnFire()
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
-}
 
-void AMyOverwatchCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	if (TouchItem.bIsPressed == true)
-	{
-		return;
-	}
-	TouchItem.bIsPressed = true;
-	TouchItem.FingerIndex = FingerIndex;
-	TouchItem.Location = Location;
-	TouchItem.bMoved = false;
-}
 
-void AMyOverwatchCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location)
-{
-	if (TouchItem.bIsPressed == false)
-	{
-		return;
-	}
-	if ((FingerIndex == TouchItem.FingerIndex) && (TouchItem.bMoved == false))
-	{
-		OnFire();
-	}
-	TouchItem.bIsPressed = false;
 }
 
 //Commenting this section out to be consistent with FPS BP template.
@@ -257,4 +241,26 @@ bool AMyOverwatchCharacter::EnableTouchscreenMovement(class UInputComponent* Pla
 		//PlayerInputComponent->BindTouch(EInputEvent::IE_Repeat, this, &AMyOverwatchCharacter::TouchUpdate);
 	}
 	return bResult;
+}
+
+void AMyOverwatchCharacter::BeginTouch(const ETouchIndex::Type FingerIndex, const FVector Location) {
+	if (TouchItem.bIsPressed == true) {
+		return;
+	}
+	TouchItem.bIsPressed = true;
+	TouchItem.FingerIndex = FingerIndex;
+	TouchItem.Location = Location;
+	TouchItem.bMoved = false;
+}
+
+void AMyOverwatchCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const FVector Location) {
+	if (TouchItem.bIsPressed == false){
+		return;
+	}
+
+	if ((FingerIndex == TouchItem.FingerIndex) && (TouchItem.bMoved == false)){
+		FirePrimary();
+	}
+
+	TouchItem.bIsPressed = false;
 }

@@ -68,7 +68,14 @@ public:
 protected:
 	
 	/** Fires a projectile. */
-	void OnFire();
+	void FirePrimary();
+
+	void FireSecondary();
+
+	void AbilityE();
+
+	void AbilityUltimate();
+
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

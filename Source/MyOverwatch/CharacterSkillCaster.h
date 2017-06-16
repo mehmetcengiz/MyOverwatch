@@ -5,6 +5,7 @@
 #include "Components/ActorComponent.h"
 #include "CharacterSkillCaster.generated.h"
 
+class UCharacterSkills;
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API UCharacterSkillCaster : public UActorComponent
@@ -20,10 +21,13 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	virtual void PimaryFire();
-	virtual void SecondaryFire();
-	virtual void AbilityE();
-	virtual void AbilityShift();
-	virtual void AbilityJump();
+	void FirePrimary();
+	void FireSecondary();
+	void AbilityE();
+	void AbilityShift();
+	void AbilityJump();
+	void AbilityUltimate();
+
+
 
 };

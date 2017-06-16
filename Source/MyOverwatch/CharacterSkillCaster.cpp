@@ -19,27 +19,34 @@ UCharacterSkillCaster::UCharacterSkillCaster()
 void UCharacterSkillCaster::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
-void UCharacterSkillCaster::PimaryFire(){
+void UCharacterSkillCaster::FirePrimary(){
 	UE_LOG(LogTemp, Warning, TEXT("Character primary shoot!"));
-
-
 }
 
-void UCharacterSkillCaster::SecondaryFire(){
+void UCharacterSkillCaster::FireSecondary(){
+	UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot!"));
 }
 
 void UCharacterSkillCaster::AbilityE(){
+	UE_LOG(LogTemp, Warning, TEXT("Ability E casted."));
 }
 
 void UCharacterSkillCaster::AbilityShift(){
+	UE_LOG(LogTemp, Warning, TEXT("Ability Shift"));
 }
 
 void UCharacterSkillCaster::AbilityJump(){
+	UE_LOG(LogTemp, Warning, TEXT("Ability Jump"));
+
+}
+
+
+void UCharacterSkillCaster::AbilityUltimate(){
+	UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
+
 }
 
 
