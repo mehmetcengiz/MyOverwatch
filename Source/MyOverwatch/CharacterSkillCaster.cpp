@@ -24,10 +24,12 @@ void UCharacterSkillCaster::BeginPlay()
 
 void UCharacterSkillCaster::FirePrimary(){
 	UE_LOG(LogTemp, Warning, TEXT("Character primary shoot!"));
+
 }
 
 void UCharacterSkillCaster::FireSecondary(){
 	UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot!"));
+	OnFireSecondaryCasted.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityE(){

@@ -7,6 +7,8 @@
 
 class UCharacterSkills;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryCasted);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API UCharacterSkillCaster : public UActorComponent
 {
@@ -30,4 +32,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, Category = "Character Setup")
 	UCharacterSkills *characterSkills;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnFireSecondaryCasted OnFireSecondaryCasted;
+
 };
