@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//This is example game project by Mehmet Cengiz.Source available on github.com/mehmetcengiz/MyOverwatch 
 
 #pragma once
 

@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+//This is example game project by Mehmet Cengiz.Source available on github.com/mehmetcengiz/MyOverwatch 
 
 #include "MyOverwatch.h"
 #include "Soldier76Skills.h"
+#include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 
 
 // Sets default values for this component's properties
@@ -33,6 +34,6 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 }
 
 void USoldier76Skills::FireSecondary(){
-	UE_LOG(LogTemp, Warning, TEXT("Fire By Soldier76"));
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fire casted by Soldier76");
 }
 
