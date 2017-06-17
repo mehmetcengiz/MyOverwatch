@@ -28,6 +28,6 @@ public:
 	void AbilityJump();
 	void AbilityUltimate();
 
-
-
+	UPROPERTY(EditDefaultsOnly, Category = "Character Setup")
+	UCharacterSkills *characterSkills;
 };

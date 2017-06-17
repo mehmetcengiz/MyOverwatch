@@ -40,13 +40,10 @@ void UCharacterSkillCaster::AbilityShift(){
 
 void UCharacterSkillCaster::AbilityJump(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability Jump"));
-
 }
-
 
 void UCharacterSkillCaster::AbilityUltimate(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
-
 }
 
 
