@@ -24,7 +24,7 @@ void UCharacterSkillCaster::BeginPlay()
 
 void UCharacterSkillCaster::FirePrimary(){
 	UE_LOG(LogTemp, Warning, TEXT("Character primary shoot!"));
-
+	OnFirePrimaryCasted.Broadcast();
 }
 
 void UCharacterSkillCaster::FireSecondary(){
@@ -34,18 +34,22 @@ void UCharacterSkillCaster::FireSecondary(){
 
 void UCharacterSkillCaster::AbilityE(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability E casted."));
+	OnAbilityECasted.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityShift(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability Shift"));
+	OnAbilityShiftCasted.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityJump(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability Jump"));
+	OnAbilityJump.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityUltimate(){
 	UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
+	OnAbilityUltimateCasted.Broadcast();
 }
 
 

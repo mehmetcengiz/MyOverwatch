@@ -8,6 +8,12 @@
 class UCharacterSkills;
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryCasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryCasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityECasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityUltimateCasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftCasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityJump);
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API UCharacterSkillCaster : public UActorComponent
@@ -30,10 +36,26 @@ public:
 	void AbilityJump();
 	void AbilityUltimate();
 
-	UPROPERTY(EditDefaultsOnly, Category = "Character Setup")
-	UCharacterSkills *characterSkills;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnFirePrimaryCasted OnFirePrimaryCasted;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnFireSecondaryCasted OnFireSecondaryCasted;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityECasted OnAbilityECasted;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityUltimateCasted OnAbilityUltimateCasted;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityShiftCasted OnAbilityShiftCasted;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityJump OnAbilityJump;
+
+
+	
 
 };

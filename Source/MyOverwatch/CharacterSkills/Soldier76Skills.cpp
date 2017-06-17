@@ -34,6 +34,24 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 }
 
 void USoldier76Skills::FireSecondary(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fire casted by Soldier76");
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
+}
+
+void USoldier76Skills::FirePrimary(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary casted by Soldier76");
+}
+
+void USoldier76Skills::AbilityE(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary E casted by Soldier76");
+}
+
+void USoldier76Skills::AbilityUltimate(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Q casted by Soldier76");
+}
+void USoldier76Skills::AbilityShift(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift casted by Soldier76");
+}
+void USoldier76Skills::AbilityJump(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
 }
 

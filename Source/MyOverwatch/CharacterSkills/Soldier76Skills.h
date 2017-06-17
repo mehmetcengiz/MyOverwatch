@@ -27,5 +27,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void FireSecondary();
 
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void FirePrimary();
+
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void AbilityE();
+
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void AbilityUltimate();
+
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void AbilityShift();
+
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void AbilityJump();
+
+
+
 	
 };
