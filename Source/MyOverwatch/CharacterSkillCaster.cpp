@@ -28,7 +28,11 @@ void UCharacterSkillCaster::FirePrimary(){
 }
 
 void UCharacterSkillCaster::FireSecondary(){
-	UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot!"));
+
+	float time = FPlatformTime::Seconds();
+
+	//if(bIsFireSecondaryHaveCoolDown && )
+	UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot! %f") , time);
 	OnFireSecondaryCasted.Broadcast();
 }
 

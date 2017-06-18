@@ -29,27 +29,35 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	//Firing.
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float FiringRate = 0.2f;
+	float LastTimeFired = 0;
+
 
 	//Skill cooldown setups.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsFireSecondaryHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsFireSecondaryHaveCoolDown"))
 	float FireSecondaryCoolDownTime = 3.0f;
+	float LastTimeFireSecondaryCasted;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityEHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityEHaveCoolDown"))
 	float AbilityECoolDownTime = 3.0f;
+	float LastTimeAbilityECasted = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityShiftHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityShiftHaveCoolDown"))
 	float AbilityShiftCoolDownTime = 3.0f;
+	float LastTimeAbilityShiftCasted = 0;
 
 	//Maximum charge for ultimate.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	float AbilityUltimateChargeMax = 1000;
-
+	float CurrentUltimateCharge = 0;
 
 	//Called when any skill casted.
 	void FirePrimary();
