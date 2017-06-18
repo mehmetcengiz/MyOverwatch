@@ -29,6 +29,29 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+
+	//Skill cooldown setups.
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
+	bool bIsFireSecondaryHaveCoolDown = true;
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsFireSecondaryHaveCoolDown"))
+	float FireSecondaryCoolDownTime = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
+	bool bIsAbilityEHaveCoolDown = true;
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityEHaveCoolDown"))
+	float AbilityECoolDownTime = 3.0f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
+	bool bIsAbilityShiftHaveCoolDown = true;
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityShiftHaveCoolDown"))
+	float AbilityShiftCoolDownTime = 3.0f;
+
+	//Maximum charge for ultimate.
+	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
+	float AbilityUltimateChargeMax = 1000;
+
+
+	//Called when any skill casted.
 	void FirePrimary();
 	void FireSecondary();
 	void AbilityE();
@@ -37,6 +60,7 @@ public:
 	void AbilityUltimate();
 
 
+	//When any skill casted those event will be broadcasted.
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnFirePrimaryCasted OnFirePrimaryCasted;
 
@@ -55,7 +79,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnAbilityJump OnAbilityJump;
 
-
+	
 	
 
 };
