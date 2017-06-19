@@ -25,11 +25,14 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
-	void FireSecondary();
+	void FirePrimaryPressed();
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
-	void FirePrimary();
-
+	void FirePrimaryReleased();
+	
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void FireSecondary();
+	
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void AbilityE();
 

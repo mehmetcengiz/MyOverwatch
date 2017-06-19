@@ -7,8 +7,9 @@
 
 class UCharacterSkills;
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryPressed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryReleased);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryCasted);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryCasted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityECasted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityUltimateCasted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftCasted);
@@ -60,7 +61,8 @@ public:
 	float CurrentUltimateCharge = 0;
 
 	//Called when any skill casted.
-	void FirePrimary();
+	void FirePrimaryPressed();
+	void FirePrimaryReleased();
 	void FireSecondary();
 	void AbilityE();
 	void AbilityShift();
@@ -70,7 +72,10 @@ public:
 
 	//When any skill casted those event will be broadcasted.
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnFirePrimaryCasted OnFirePrimaryCasted;
+	FOnFirePrimaryPressed OnFirePrimaryPressed;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnFirePrimaryReleased OnFirePrimaryReleased;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnFireSecondaryCasted OnFireSecondaryCasted;

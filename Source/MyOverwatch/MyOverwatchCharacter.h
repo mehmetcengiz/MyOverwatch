@@ -76,6 +76,7 @@ protected:
 
 	void AbilityUltimate();
 
+	void FirePrimaryReleased();
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

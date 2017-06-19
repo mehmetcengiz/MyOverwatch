@@ -91,6 +91,7 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityE);
 	PlayerInputComponent->BindAction("AbilityQ", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
 	PlayerInputComponent->BindAction("FirePrimary", IE_Pressed, this, &AMyOverwatchCharacter::FirePrimary);
+	PlayerInputComponent->BindAction("FirePrimary", IE_Released, this, &AMyOverwatchCharacter::FirePrimaryReleased);
 	PlayerInputComponent->BindAction("FireSecondary", IE_Pressed, this, &AMyOverwatchCharacter::FireSecondary);
 	PlayerInputComponent->BindAction("AbilityUltimate", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
 	
@@ -122,7 +123,7 @@ void AMyOverwatchCharacter::FireSecondary(){
 
 void AMyOverwatchCharacter::FirePrimary()
 {
-	CharacterSkillCaster->FirePrimary();
+	CharacterSkillCaster->FirePrimaryPressed();
 	// try and fire a projectile
 	if (ProjectileClass != NULL) {
 
@@ -158,6 +159,10 @@ void AMyOverwatchCharacter::FirePrimary()
 	}
 
 
+}
+
+void AMyOverwatchCharacter::FirePrimaryReleased(){
+	CharacterSkillCaster->FirePrimaryReleased();
 }
 
 //Commenting this section out to be consistent with FPS BP template.

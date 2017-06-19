@@ -30,15 +30,19 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	// ...
+
+}
+
+void USoldier76Skills::FirePrimaryPressed(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary pressed by Soldier76");
+}
+
+void USoldier76Skills::FirePrimaryReleased(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary released by Soldier76");
 }
 
 void USoldier76Skills::FireSecondary(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
-}
-
-void USoldier76Skills::FirePrimary(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary casted by Soldier76");
 }
 
 void USoldier76Skills::AbilityE(){
