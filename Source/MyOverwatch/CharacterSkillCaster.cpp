@@ -30,16 +30,20 @@ void UCharacterSkillCaster::FirePrimaryReleased(){
 	OnFirePrimaryReleased.Broadcast();
 }
 
-void UCharacterSkillCaster::FireSecondary(){
+void UCharacterSkillCaster::FireSecondaryPressed(){
 
 	if (!bIsFireSecondaryHaveCoolDown || FPlatformTime::Seconds() - LastTimeFireSecondaryCasted > FireSecondaryCoolDownTime){
 		UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot! %f"));
 		LastTimeFireSecondaryCasted = FPlatformTime::Seconds();
-		OnFireSecondaryCasted.Broadcast();
+		OnFireSecondaryPressed.Broadcast();
 	}else {
 		float cooldown = FireSecondaryCoolDownTime + LastTimeFireSecondaryCasted - FPlatformTime::Seconds();
 		UE_LOG(LogTemp, Warning, TEXT("Secondary Fire is in cooldown %f"), cooldown);
 	}
+}
+
+void UCharacterSkillCaster::FireSecondaryReleased() {
+	OnFireSecondaryReleased.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityE(){

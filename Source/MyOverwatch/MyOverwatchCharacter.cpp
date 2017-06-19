@@ -90,9 +90,10 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 
 	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityE);
 	PlayerInputComponent->BindAction("AbilityQ", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
-	PlayerInputComponent->BindAction("FirePrimary", IE_Pressed, this, &AMyOverwatchCharacter::FirePrimary);
+	PlayerInputComponent->BindAction("FirePrimary", IE_Pressed, this, &AMyOverwatchCharacter::FirePrimaryPressed);
 	PlayerInputComponent->BindAction("FirePrimary", IE_Released, this, &AMyOverwatchCharacter::FirePrimaryReleased);
-	PlayerInputComponent->BindAction("FireSecondary", IE_Pressed, this, &AMyOverwatchCharacter::FireSecondary);
+	PlayerInputComponent->BindAction("FireSecondary", IE_Pressed, this, &AMyOverwatchCharacter::FireSecondaryPressed);
+	PlayerInputComponent->BindAction("FireSecondary", IE_Released, this, &AMyOverwatchCharacter::FireSecondaryReleased);
 	PlayerInputComponent->BindAction("AbilityUltimate", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
 	
 	
@@ -117,11 +118,7 @@ void AMyOverwatchCharacter::AbilityUltimate(){
 	
 }
 
-void AMyOverwatchCharacter::FireSecondary(){
-	CharacterSkillCaster->FireSecondary();	
-}
-
-void AMyOverwatchCharacter::FirePrimary()
+void AMyOverwatchCharacter::FirePrimaryPressed()
 {
 	CharacterSkillCaster->FirePrimaryPressed();
 	// try and fire a projectile
@@ -164,6 +161,17 @@ void AMyOverwatchCharacter::FirePrimary()
 void AMyOverwatchCharacter::FirePrimaryReleased(){
 	CharacterSkillCaster->FirePrimaryReleased();
 }
+
+void AMyOverwatchCharacter::FireSecondaryPressed(){
+	CharacterSkillCaster->FireSecondaryPressed();
+}
+
+
+void AMyOverwatchCharacter::FireSecondaryReleased(){
+	CharacterSkillCaster->FireSecondaryReleased();
+}
+
+
 
 //Commenting this section out to be consistent with FPS BP template.
 //This allows the user to turn without using the right virtual joystick
@@ -264,7 +272,7 @@ void AMyOverwatchCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const 
 	}
 
 	if ((FingerIndex == TouchItem.FingerIndex) && (TouchItem.bMoved == false)){
-		FirePrimary();
+		FirePrimaryPressed();
 	}
 
 	TouchItem.bIsPressed = false;
