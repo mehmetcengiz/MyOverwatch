@@ -4,6 +4,7 @@
 #include "Soldier76Skills.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 
+#define OUT
 
 // Sets default values for this component's properties
 USoldier76Skills::USoldier76Skills()
@@ -20,6 +21,8 @@ USoldier76Skills::USoldier76Skills()
 void USoldier76Skills::BeginPlay()
 {
 	Super::BeginPlay();
+	bIsPlayerShooting = false;
+	
 	//TODO Bind the events of player skills.
 	
 }
@@ -30,15 +33,42 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	
+	if(bIsPlayerShooting){
+		if(FiringState == EFiringState::READY){
+			Shoot();
+		}
+	}
+
+	if(FiringState == EFiringState::NOT_READY){
+		//TODO something wrong here.
+		FTimerHandle Handle;
+		GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, false);
+	}
 
 }
 
+
+void USoldier76Skills::Shoot(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Soldier76 is Shooting !! ");
+	FiringState = EFiringState::NOT_READY;
+}
+
+
 void USoldier76Skills::FirePrimaryPressed(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary pressed by Soldier76");
+	bIsPlayerShooting = true;
 }
 
 void USoldier76Skills::FirePrimaryReleased(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary firePrimary released by Soldier76");
+	bIsPlayerShooting = false;
+}
+
+void USoldier76Skills::MakeReadyGunToNextShot(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Gun is NOT READY ");
+	
+	if(FiringState == EFiringState::NOT_READY){
+		FiringState = EFiringState::READY;
+	}
 }
 
 void USoldier76Skills::FireSecondary(){
@@ -58,4 +88,5 @@ void USoldier76Skills::AbilityShift(){
 void USoldier76Skills::AbilityJump(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
 }
+
 

@@ -3,9 +3,16 @@
 #pragma once
 
 #include "Components/ActorComponent.h"
-#include "CharacterSkillCaster.h"
 #include "Soldier76Skills.generated.h"
 
+UENUM()
+enum class EFiringState : uint8{
+	FIRING, 
+	OUT_OF_AMMO,
+	RELOADING,
+	READY, 
+	NOT_READY
+};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API USoldier76Skills : public UActorComponent
@@ -23,6 +30,8 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void Shoot();
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void FirePrimaryPressed();
@@ -45,7 +54,18 @@ public:
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void AbilityJump();
 
+private:
+	//Primary firing.
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float PrimaryFiringRate =0.3;
+	float LastTimeFired;
+	bool bIsPlayerShooting;
+
+	void MakeReadyGunToNextShot();
+
+protected:
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringState FiringState = EFiringState::READY;
 
 
-	
 };

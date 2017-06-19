@@ -30,12 +30,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	//Firing.
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float FiringRate = 0.2f;
-	float LastTimeFired = 0;
-
-
+	
 	//Skill cooldown setups.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsFireSecondaryHaveCoolDown = true;
