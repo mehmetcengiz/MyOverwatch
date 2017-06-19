@@ -34,16 +34,15 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	
-	if(bIsPlayerShooting){
-		if(FiringState == EFiringState::READY){
-			Shoot();
-		}
+	if(bIsPlayerShooting && FiringState == EFiringState::READY){
+		Shoot();
+		FiringState = EFiringState::NOT_READY;
 	}
 
 	if(FiringState == EFiringState::NOT_READY){
-		//TODO something wrong here.
+		FiringState = EFiringState::GETTING_READY;
 		FTimerHandle Handle;
-		GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, false);
+		GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot,PrimaryFiringRate, false);
 	}
 
 }
@@ -51,7 +50,6 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 void USoldier76Skills::Shoot(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Soldier76 is Shooting !! ");
-	FiringState = EFiringState::NOT_READY;
 }
 
 
@@ -64,11 +62,7 @@ void USoldier76Skills::FirePrimaryReleased(){
 }
 
 void USoldier76Skills::MakeReadyGunToNextShot(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Gun is NOT READY ");
-	
-	if(FiringState == EFiringState::NOT_READY){
-		FiringState = EFiringState::READY;
-	}
+	FiringState = EFiringState::READY;
 }
 
 void USoldier76Skills::FireSecondary(){

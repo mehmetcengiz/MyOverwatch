@@ -11,7 +11,8 @@ enum class EFiringState : uint8{
 	OUT_OF_AMMO,
 	RELOADING,
 	READY, 
-	NOT_READY
+	NOT_READY,
+	GETTING_READY
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -57,7 +58,7 @@ public:
 private:
 	//Primary firing.
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float PrimaryFiringRate =0.3;
+	float PrimaryFiringRate =0.10f;
 	float LastTimeFired;
 	bool bIsPlayerShooting;
 
