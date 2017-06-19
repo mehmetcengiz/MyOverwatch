@@ -5,21 +5,19 @@
 
 
 // Sets default values for this component's properties
-UCharacterSkillCaster::UCharacterSkillCaster()
-{
+UCharacterSkillCaster::UCharacterSkillCaster(){
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	
+
 }
 
 
 // Called when the game starts
-void UCharacterSkillCaster::BeginPlay()
-{
+void UCharacterSkillCaster::BeginPlay(){
 	Super::BeginPlay();
-	
+
 }
 
 void UCharacterSkillCaster::FirePrimary(){
@@ -29,21 +27,39 @@ void UCharacterSkillCaster::FirePrimary(){
 
 void UCharacterSkillCaster::FireSecondary(){
 
-	float time = FPlatformTime::Seconds();
-
-	//if(bIsFireSecondaryHaveCoolDown && )
-	UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot! %f") , time);
-	OnFireSecondaryCasted.Broadcast();
+	if (!bIsFireSecondaryHaveCoolDown || FPlatformTime::Seconds() - LastTimeFireSecondaryCasted > FireSecondaryCoolDownTime){
+		UE_LOG(LogTemp, Warning, TEXT("Character secondary shoot! %f"));
+		LastTimeFireSecondaryCasted = FPlatformTime::Seconds();
+		OnFireSecondaryCasted.Broadcast();
+	}else {
+		float cooldown = FireSecondaryCoolDownTime + LastTimeFireSecondaryCasted - FPlatformTime::Seconds();
+		UE_LOG(LogTemp, Warning, TEXT("Secondary Fire is in cooldown %f"), cooldown);
+	}
 }
 
 void UCharacterSkillCaster::AbilityE(){
-	UE_LOG(LogTemp, Warning, TEXT("Ability E casted."));
-	OnAbilityECasted.Broadcast();
+
+	if(!bIsAbilityEHaveCoolDown || FPlatformTime::Seconds() - LastTimeAbilityECasted > AbilityECoolDownTime){
+		UE_LOG(LogTemp, Warning, TEXT("Ability E casted."));
+		LastTimeAbilityECasted = FPlatformTime::Seconds();
+		OnAbilityECasted.Broadcast();
+	}else{
+		float cooldown = AbilityECoolDownTime + LastTimeAbilityECasted - FPlatformTime::Seconds();
+		UE_LOG(LogTemp, Warning, TEXT("Ability E is on cooldown %f"), cooldown);
+	}
 }
 
 void UCharacterSkillCaster::AbilityShift(){
-	UE_LOG(LogTemp, Warning, TEXT("Ability Shift"));
-	OnAbilityShiftCasted.Broadcast();
+
+	if(!bIsAbilityShiftHaveCoolDown || FPlatformTime::Seconds()- LastTimeAbilityShiftCasted > AbilityShiftCoolDownTime){
+		UE_LOG(LogTemp, Warning, TEXT("Ability Shift"));
+		OnAbilityShiftCasted.Broadcast();
+		LastTimeAbilityShiftCasted = FPlatformTime::Seconds();
+	}else{
+		float cooldown = AbilityShiftCoolDownTime + LastTimeAbilityShiftCasted - FPlatformTime::Seconds();
+		UE_LOG(LogTemp, Warning, TEXT("Ability Shift is on cooldown %f"), cooldown);
+	}
+
 }
 
 void UCharacterSkillCaster::AbilityJump(){
@@ -52,9 +68,10 @@ void UCharacterSkillCaster::AbilityJump(){
 }
 
 void UCharacterSkillCaster::AbilityUltimate(){
-	UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
-	OnAbilityUltimateCasted.Broadcast();
+
+	if(CurrentUltimateCharge >= AbilityUltimateChargeMax){
+		UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
+		OnAbilityUltimateCasted.Broadcast();
+		CurrentUltimateCharge = 0;
+	}
 }
-
-
-

@@ -40,7 +40,7 @@ public:
 	bool bIsFireSecondaryHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsFireSecondaryHaveCoolDown"))
 	float FireSecondaryCoolDownTime = 3.0f;
-	float LastTimeFireSecondaryCasted;
+	float LastTimeFireSecondaryCasted = 0;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityEHaveCoolDown = true;
