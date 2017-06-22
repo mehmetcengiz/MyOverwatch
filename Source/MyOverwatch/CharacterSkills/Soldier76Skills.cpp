@@ -52,6 +52,7 @@ void USoldier76Skills::Shoot(){
 	FiringState = EFiringState::NOT_READY;
 
 	//TODO implement shooting.
+	
 
 	//If no bullet change firing state to Out_Of_Ammo.
 	if(CurrentAmmo <=0){
@@ -80,25 +81,29 @@ void USoldier76Skills::Shoot(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red,ShootingMessage + FString::FromInt(CurrentAmmo));
 }
 
-
+//Soldier76 keeps shooting when player keep pressing button.
 void USoldier76Skills::FirePrimaryPressed(){
 	bIsPlayerShooting = true;
 }
 
+//Soldier76 stops shooting when player released button.
 void USoldier76Skills::FirePrimaryReleased(){
 	bIsPlayerShooting = false;
 }
 
-void USoldier76Skills::MakeReadyGunToNextShot(){
-	FiringState = EFiringState::READY;
-}
-
+//Calls MakeReadyGunToNextShot method with delay to Handle Firing Rate.
 void USoldier76Skills::HandleFiringRate() {
 	FiringState = EFiringState::GETTING_READY;
 	FTimerHandle Handle;
 	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, PrimaryFiringRate, false);
 }
 
+//Used for firing rate by HandleFiringRate method.
+void USoldier76Skills::MakeReadyGunToNextShot(){
+	FiringState = EFiringState::READY;
+}
+
+//Reloading state. Reload Animation, Sound etc.
 void USoldier76Skills::ReloadGun(){
 	FiringState = EFiringState::RELOADING;
 	FTimerHandle Handle;
@@ -108,6 +113,7 @@ void USoldier76Skills::ReloadGun(){
 
 }
 
+//Reloads bullets and makes ready to next shot.
 void USoldier76Skills::Reload(){
 	CurrentAmmo = TotalAmmo;
 	FiringState = EFiringState::READY;
