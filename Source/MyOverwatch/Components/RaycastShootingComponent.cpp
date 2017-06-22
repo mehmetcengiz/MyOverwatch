@@ -2,6 +2,7 @@
 
 #include "MyOverwatch.h"
 #include "RaycastShootingComponent.h"
+#include "DrawDebugHelpers.h"
 
 
 // Sets default values for this component's properties
@@ -19,8 +20,36 @@ void URaycastShootingComponent::BeginPlay()
 {
 	Super::BeginPlay();
 	
+
+}
+
+void URaycastShootingComponent::SetCameraComponent(UCameraComponent* cameraComponent){
+	FirstPersonCamera = cameraComponent;
+}
+
+void URaycastShootingComponent::GetCameraComponent(){
+	
 }
 
 void URaycastShootingComponent::Shoot(){
 	UE_LOG(LogTemp, Warning, TEXT("Shoot with raycast!"));
+
+	FHitResult* HitResult = new FHitResult();
+	FVector StartTrace = FirstPersonCamera->GetForwardVector();
+	UE_LOG(LogTemp, Warning, TEXT("StartTrace: %s"), *StartTrace.ToString());
+	FVector EndTrace = (StartTrace * Range) + StartTrace;
+	UE_LOG(LogTemp, Warning, TEXT("EndTrace: %s"), *EndTrace.ToString());
+
+	FCollisionQueryParams* CQP = new FCollisionQueryParams();
+
+	if(GetWorld()->LineTraceSingleByChannel(*HitResult,StartTrace,EndTrace, ECC_Visibility,*CQP)){
+		
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
+
+		if(HitResult->GetActor() != NULL){
+			UE_LOG(LogTemp, Warning, TEXT("%s TARGET HIT "), *HitResult->GetActor()->GetName());
+		}
+
+	}
+
 }

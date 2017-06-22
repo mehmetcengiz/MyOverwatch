@@ -28,6 +28,18 @@ public:
 	UPROPERTY(EditDefaultsOnly,Category ="Setup", meta = (ClampMin = "0", ClampMax = "45"))
 	float BounceGap = 2;
 
+	/**Range of weapon. */
+	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0"))
+	float Range = 5000.f;
+
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetCameraComponent(UCameraComponent* cameraComponent);
+	void GetCameraComponent();
+
+	UCameraComponent* FirstPersonCamera;
+
+
 	void Shoot();
 	
 };

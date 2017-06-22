@@ -21,12 +21,10 @@ void UCharacterSkillCaster::BeginPlay(){
 }
 
 void UCharacterSkillCaster::FirePrimaryPressed(){
-	UE_LOG(LogTemp, Warning, TEXT("Character primary pressed shoot!"));
 	OnFirePrimaryPressed.Broadcast();
 }
 
 void UCharacterSkillCaster::FirePrimaryReleased(){
-	UE_LOG(LogTemp, Warning, TEXT("Character primary Relaesed"));
 	OnFirePrimaryReleased.Broadcast();
 }
 
