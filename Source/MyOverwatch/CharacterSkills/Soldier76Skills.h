@@ -5,6 +5,8 @@
 #include "Components/ActorComponent.h"
 #include "Soldier76Skills.generated.h"
 
+class URaycastShootingComponent;
+
 UENUM()
 enum class EFiringState : uint8{
 	FIRING, 
@@ -86,8 +88,13 @@ public:
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	class USkeletalMeshComponent* Mesh1P;
 
+	class URaycastShootingComponent* RaycastShooting;
+
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
 
 	UPROPERTY(EditdefaultsOnly, Category = "Firing")
 	int32 TotalAmmo = 25;

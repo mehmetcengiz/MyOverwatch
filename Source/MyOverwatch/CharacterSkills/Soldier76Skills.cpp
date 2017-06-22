@@ -2,6 +2,7 @@
 
 #include "MyOverwatch.h"
 #include "Soldier76Skills.h"
+#include "Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 
@@ -52,6 +53,9 @@ void USoldier76Skills::Shoot(){
 	FiringState = EFiringState::NOT_READY;
 
 	//TODO implement shooting.
+	if(RaycastShooting !=NULL){
+		RaycastShooting->Shooting();
+	}
 	
 
 	//If no bullet change firing state to Out_Of_Ammo.
@@ -140,6 +144,10 @@ void USoldier76Skills::AbilityJump(){
 
 void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
 	Mesh1P = Mesh;
+}
+
+void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Raycast){
+	RaycastShooting = Raycast;
 }
 
 
