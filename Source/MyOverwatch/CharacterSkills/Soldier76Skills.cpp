@@ -28,27 +28,27 @@ void USoldier76Skills::BeginPlay()
 }
 
 
+void USoldier76Skills::HandleFiringRate(){
+	FiringState = EFiringState::GETTING_READY;
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot,PrimaryFiringRate, false);
+}
+
 // Called every frame
 void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	
-	if(bIsPlayerShooting && FiringState == EFiringState::READY){
-		Shoot();
-		FiringState = EFiringState::NOT_READY;
-	}
-
-	if(FiringState == EFiringState::NOT_READY){
-		FiringState = EFiringState::GETTING_READY;
-		FTimerHandle Handle;
-		GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot,PrimaryFiringRate, false);
-	}
+	if(bIsPlayerShooting && FiringState == EFiringState::READY){ Shoot();}
+	
+	if(FiringState == EFiringState::NOT_READY){ HandleFiringRate();	}
 
 }
 
 
 void USoldier76Skills::Shoot(){
+	FiringState = EFiringState::NOT_READY;
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Soldier76 is Shooting !! ");
 }
 

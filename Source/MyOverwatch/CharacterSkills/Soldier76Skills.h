@@ -63,6 +63,7 @@ private:
 	bool bIsPlayerShooting;
 
 	void MakeReadyGunToNextShot();
+	void HandleFiringRate();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
