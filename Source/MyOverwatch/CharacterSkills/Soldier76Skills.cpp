@@ -53,8 +53,8 @@ void USoldier76Skills::Shoot(){
 	FiringState = EFiringState::NOT_READY;
 
 	//TODO implement shooting.
-	if(RaycastShooting !=NULL){
-		RaycastShooting->Shooting();
+	if(RaycastShooting != NULL){
+		RaycastShooting->Shoot();
 	}
 	
 
@@ -81,7 +81,7 @@ void USoldier76Skills::Shoot(){
 	}
 
 	//Print current bullet on screen.
-	FString ShootingMessage(TEXT("Shooting!! Bullet Left: "));
+	FString ShootingMessage(TEXT("Shoot!! Bullet Left: "));
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red,ShootingMessage + FString::FromInt(CurrentAmmo));
 }
 

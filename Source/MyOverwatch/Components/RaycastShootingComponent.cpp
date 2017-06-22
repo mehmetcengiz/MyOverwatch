@@ -11,7 +11,6 @@ URaycastShootingComponent::URaycastShootingComponent()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
 
-	// ...
 }
 
 
@@ -19,11 +18,9 @@ URaycastShootingComponent::URaycastShootingComponent()
 void URaycastShootingComponent::BeginPlay()
 {
 	Super::BeginPlay();
-
-	// ...
 	
 }
 
-void URaycastShootingComponent::Shooting(){
-	UE_LOG(LogTemp, Warning, TEXT("Shooting with raycast!"));
+void URaycastShootingComponent::Shoot(){
+	UE_LOG(LogTemp, Warning, TEXT("Shoot with raycast!"));
 }
