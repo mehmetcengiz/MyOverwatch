@@ -62,12 +62,36 @@ private:
 	float LastTimeFired;
 	bool bIsPlayerShooting;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadingRate = 2.f;
+
 	void MakeReadyGunToNextShot();
 	void HandleFiringRate();
+	void ReloadGun();
+	void Reload();
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::READY;
 
+public:
+	/** Sound to play each time we fire */
+	UPROPERTY(EditDefaultsOnly,Category="Firing")
+	class USoundBase* FireSound;
+
+	/** AnimMontage to play each time we fire */
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	class UAnimMontage* FireAnimation;
+
+	/** Pawn mesh: 1st person view (arms; seen only by self) */
+	class USkeletalMeshComponent* Mesh1P;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
+
+	UPROPERTY(EditdefaultsOnly, Category = "Firing")
+	int32 TotalAmmo = 25;
+	int32 CurrentAmmo;
+	
 
 };

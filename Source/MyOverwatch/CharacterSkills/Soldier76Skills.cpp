@@ -2,6 +2,7 @@
 
 #include "MyOverwatch.h"
 #include "Soldier76Skills.h"
+#include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 
 #define OUT
@@ -22,17 +23,14 @@ void USoldier76Skills::BeginPlay()
 {
 	Super::BeginPlay();
 	bIsPlayerShooting = false;
+	CurrentAmmo = TotalAmmo;
 	
 	//TODO Bind the events of player skills.
 	
 }
 
 
-void USoldier76Skills::HandleFiringRate(){
-	FiringState = EFiringState::GETTING_READY;
-	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot,PrimaryFiringRate, false);
-}
+
 
 // Called every frame
 void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -44,12 +42,42 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	
 	if(FiringState == EFiringState::NOT_READY){ HandleFiringRate();	}
 
+	if (FiringState == EFiringState::OUT_OF_AMMO) { ReloadGun(); }
+
 }
 
 
 void USoldier76Skills::Shoot(){
+	
 	FiringState = EFiringState::NOT_READY;
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Soldier76 is Shooting !! ");
+
+	//TODO implement shooting.
+
+	//If no bullet change firing state to Out_Of_Ammo.
+	if(CurrentAmmo <=0){
+		FiringState = EFiringState::OUT_OF_AMMO;
+		return;
+	}
+	CurrentAmmo--;
+
+	//Play firing sound.
+	if(FireSound != NULL){
+		FVector ActorLocation;
+		ActorLocation = GetOwner()->GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
+	}
+
+	//Play firing animation.
+	if(FireAnimation != NULL){
+		UAnimInstance * AnimInstance = Mesh1P->GetAnimInstance();
+		if(AnimInstance != NULL){
+			AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
+
+	//Print current bullet on screen.
+	FString ShootingMessage(TEXT("Shooting!! Bullet Left: "));
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red,ShootingMessage + FString::FromInt(CurrentAmmo));
 }
 
 
@@ -63,6 +91,27 @@ void USoldier76Skills::FirePrimaryReleased(){
 
 void USoldier76Skills::MakeReadyGunToNextShot(){
 	FiringState = EFiringState::READY;
+}
+
+void USoldier76Skills::HandleFiringRate() {
+	FiringState = EFiringState::GETTING_READY;
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, PrimaryFiringRate, false);
+}
+
+void USoldier76Skills::ReloadGun(){
+	FiringState = EFiringState::RELOADING;
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::Reload, ReloadingRate, false);
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Reloading Weapon!");
+	//TODO implement reload animation.
+
+}
+
+void USoldier76Skills::Reload(){
+	CurrentAmmo = TotalAmmo;
+	FiringState = EFiringState::READY;
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Gun Reloaded!");
 }
 
 void USoldier76Skills::FireSecondary(){
@@ -81,6 +130,10 @@ void USoldier76Skills::AbilityShift(){
 }
 void USoldier76Skills::AbilityJump(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
+}
+
+void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
+	Mesh1P = Mesh;
 }
 
 
