@@ -32,11 +32,19 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0"))
 	float Range = 5000.f;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float DamageToApply = 20.f ;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* cameraComponent);
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetPlayerController(AController* controller);
 
-	UCameraComponent* FirstPersonCamera;
+
+	UCameraComponent* FirstPersonCamera = nullptr;
+
+	AController* PlayerController = nullptr;
 
 
 	void Shoot();

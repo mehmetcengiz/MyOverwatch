@@ -3,6 +3,7 @@
 #include "MyOverwatch.h"
 #include "RaycastShootingComponent.h"
 #include "DrawDebugHelpers.h"
+#include "GameFramework/DamageType.h"
 
 
 // Sets default values for this component's properties
@@ -26,6 +27,10 @@ void URaycastShootingComponent::SetCameraComponent(UCameraComponent* cameraCompo
 	FirstPersonCamera = cameraComponent;
 }
 
+void URaycastShootingComponent::SetPlayerController(AController* controller){
+	PlayerController = controller;
+}
+
 void URaycastShootingComponent::Shoot(){
 
 	//For multiple bullet increase RayPerShot.
@@ -33,6 +38,7 @@ void URaycastShootingComponent::Shoot(){
 				
 		//Get StartTrace and Forward Vector
 		FHitResult* HitResult = new FHitResult();
+		if (FirstPersonCamera == NULL) { return; }
 		FVector StartTrace = FirstPersonCamera->GetComponentLocation();
 		FVector ForwardVector = FirstPersonCamera->GetForwardVector();
 	
@@ -52,6 +58,11 @@ void URaycastShootingComponent::Shoot(){
 		if(GetWorld()->LineTraceSingleByChannel(*HitResult,StartTrace,EndTrace, ECC_Visibility,*CQP)){
 			DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
 			if(HitResult->GetActor() != NULL){
+				TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+				FDamageEvent DamageEvent(ValidDamageTypeClass);
+
+				if (PlayerController == NULL) { return; }
+				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
 				UE_LOG(LogTemp, Warning, TEXT("%s TARGET HIT "), *HitResult->GetActor()->GetName());
 			}
 		}
