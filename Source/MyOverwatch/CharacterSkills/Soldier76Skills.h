@@ -9,12 +9,12 @@ class URaycastShootingComponent;
 
 UENUM()
 enum class EFiringState : uint8{
+	READY,
 	FIRING, 
-	OUT_OF_AMMO,
-	RELOADING,
-	READY, 
 	NOT_READY,
-	GETTING_READY
+	GETTING_READY,
+	OUT_OF_AMMO,
+	RELOADING
 };
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
