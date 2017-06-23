@@ -32,14 +32,13 @@ void URaycastShootingComponent::GetCameraComponent(){
 }
 
 void URaycastShootingComponent::Shoot(){
-	UE_LOG(LogTemp, Warning, TEXT("Shoot with raycast!"));
 
 	FHitResult* HitResult = new FHitResult();
+	
 	FVector StartTrace = FirstPersonCamera->GetComponentLocation();
 	FVector ForwardVector = FirstPersonCamera->GetForwardVector();
 	FVector EndTrace = (ForwardVector * Range) + StartTrace;
 
-	UE_LOG(LogTemp, Warning, TEXT("EndTrace: %s"), *EndTrace.ToString());
 	FCollisionQueryParams* CQP = new FCollisionQueryParams();
 
 	if(GetWorld()->LineTraceSingleByChannel(*HitResult,StartTrace,EndTrace, ECC_Visibility,*CQP)){
