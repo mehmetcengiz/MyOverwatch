@@ -22,11 +22,11 @@ protected:
 public:	
 	/** The number of bullet per shot. Example: For heavy weapon might be 1, for shotgun might be 8 */
 	UPROPERTY(EditDefaultsOnly,Category = "Setup", meta = (ClampMin = "1", ClampMax = "100"))
-	int32 RayPerShot = 1;
+	int32 RayPerShot =1;
 
 	/** How much bounce for single shot. 0 for no bounce. */
-	UPROPERTY(EditDefaultsOnly,Category ="Setup", meta = (ClampMin = "0", ClampMax = "45"))
-	float BounceGap = 2;
+	UPROPERTY(EditDefaultsOnly,Category ="Setup", meta = (ClampMin = "0", ClampMax = "0.5"))
+	float BounceGap = 0.01f;
 
 	/**Range of weapon. */
 	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0"))
@@ -35,7 +35,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* cameraComponent);
-	void GetCameraComponent();
 
 	UCameraComponent* FirstPersonCamera;
 
