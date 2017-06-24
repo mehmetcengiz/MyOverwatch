@@ -111,16 +111,19 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 }
 
 void AMyOverwatchCharacter::AbilityE(){
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->AbilityE();
 }
 
 void AMyOverwatchCharacter::AbilityUltimate(){
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->AbilityUltimate();
 	
 }
 
 void AMyOverwatchCharacter::FirePrimaryPressed()
 {
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->FirePrimaryPressed();
 	// try and fire a projectile
 	//if (ProjectileClass != NULL) {
@@ -143,57 +146,20 @@ void AMyOverwatchCharacter::FirePrimaryPressed()
 }
 
 void AMyOverwatchCharacter::FirePrimaryReleased(){
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->FirePrimaryReleased();
 }
 
 void AMyOverwatchCharacter::FireSecondaryPressed(){
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->FireSecondaryPressed();
 }
 
 
 void AMyOverwatchCharacter::FireSecondaryReleased(){
+	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->FireSecondaryReleased();
 }
-
-
-
-//Commenting this section out to be consistent with FPS BP template.
-//This allows the user to turn without using the right virtual joystick
-
-//void AMyOverwatchCharacter::TouchUpdate(const ETouchIndex::Type FingerIndex, const FVector Location)
-//{
-//	if ((TouchItem.bIsPressed == true) && (TouchItem.FingerIndex == FingerIndex))
-//	{
-//		if (TouchItem.bIsPressed)
-//		{
-//			if (GetWorld() != nullptr)
-//			{
-//				UGameViewportClient* ViewportClient = GetWorld()->GetGameViewport();
-//				if (ViewportClient != nullptr)
-//				{
-//					FVector MoveDelta = Location - TouchItem.Location;
-//					FVector2D ScreenSize;
-//					ViewportClient->GetViewportSize(ScreenSize);
-//					FVector2D ScaledDelta = FVector2D(MoveDelta.X, MoveDelta.Y) / ScreenSize;
-//					if (FMath::Abs(ScaledDelta.X) >= 4.0 / ScreenSize.X)
-//					{
-//						TouchItem.bMoved = true;
-//						float Value = ScaledDelta.X * BaseTurnRate;
-//						AddControllerYawInput(Value);
-//					}
-//					if (FMath::Abs(ScaledDelta.Y) >= 4.0 / ScreenSize.Y)
-//					{
-//						TouchItem.bMoved = true;
-//						float Value = ScaledDelta.Y * BaseTurnRate;
-//						AddControllerPitchInput(Value);
-//					}
-//					TouchItem.Location = Location;
-//				}
-//				TouchItem.Location = Location;
-//			}
-//		}
-//	}
-//}
 
 void AMyOverwatchCharacter::MoveForward(float Value)
 {
@@ -267,9 +233,7 @@ float AMyOverwatchCharacter::TakeDamage(float Damage, FDamageEvent const& Damage
 	if (CharacterHealthComponent) {
 		CharacterHealthComponent->TakeDamage(Damage);
 	}
-
 	return Damage;
-
 }
 
 void AMyOverwatchCharacter::SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth){
