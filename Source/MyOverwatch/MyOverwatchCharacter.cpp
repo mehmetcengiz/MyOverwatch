@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
 #include "MotionControllerComponent.h"
+#include "Components/CharacterHealthComponent.h"
 #include "CharacterSkillCaster.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
@@ -122,40 +123,23 @@ void AMyOverwatchCharacter::FirePrimaryPressed()
 {
 	CharacterSkillCaster->FirePrimaryPressed();
 	// try and fire a projectile
-	if (ProjectileClass != NULL) {
-
-		UWorld* const World = GetWorld();
-
-		if (World != NULL) {
-			const FRotator SpawnRotation = GetControlRotation();
+	//if (ProjectileClass != NULL) {
+	//
+	//	UWorld* const World = GetWorld();
+	//
+		//if (World != NULL) {
+			//const FRotator SpawnRotation = GetControlRotation();
 			// MuzzleOffset is in camera space, so transform it to world space before offsetting from the character location to find the final muzzle position
-			const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
+			//const FVector SpawnLocation = ((FP_MuzzleLocation != nullptr) ? FP_MuzzleLocation->GetComponentLocation() : GetActorLocation()) + SpawnRotation.RotateVector(GunOffset);
 
 			//Set Spawn Collision Handling Override
-			FActorSpawnParameters ActorSpawnParams;
-			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-			// spawn the projectile at the muzzle
-			World->SpawnActor<AMyOverwatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
-		}
-	}
-
-	// try and play the sound if specified
-	//if (FireSound != NULL) {
-	//	UGameplayStatics::PlaySoundAtLocation(this, FireSound, GetActorLocation());
+//			FActorSpawnParameters ActorSpawnParams;
+	//		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+	//
+	//		// spawn the projectile at the muzzle
+		//	World->SpawnActor<AMyOverwatchProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+		//}
 	//}
-
-	// try and play a firing animation if specified
-	//if (FireAnimation != NULL){
-		// Get the animation object for the arms mesh
-	//	UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-	//	if (AnimInstance != NULL)
-	//	{
-	//		AnimInstance->Montage_Play(FireAnimation, 1.f);
-	//	}
-	//}
-
-
 }
 
 void AMyOverwatchCharacter::FirePrimaryReleased(){
@@ -276,4 +260,18 @@ void AMyOverwatchCharacter::EndTouch(const ETouchIndex::Type FingerIndex, const 
 	}
 
 	TouchItem.bIsPressed = false;
+}
+
+float AMyOverwatchCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) {
+
+	if (CharacterHealthComponent) {
+		CharacterHealthComponent->TakeDamage(Damage);
+	}
+
+	return Damage;
+
+}
+
+void AMyOverwatchCharacter::SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth){
+	CharacterHealthComponent = CharacterHealth;
 }

@@ -33,7 +33,7 @@ public:
 	float Range = 5000.f;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float DamageToApply = 20.f ;
+	float DamageToApply = 40.f ;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* cameraComponent);

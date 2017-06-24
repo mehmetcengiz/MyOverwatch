@@ -23,13 +23,19 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	//Character base health.
 	UPROPERTY(EditDefaultsOnly, Category="Health")
 	float Health;
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	float MaxHealth;
+	float CurrentMaxHealth;
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
-	float Armor;
+	float CharacterMaxHealth = 200;
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float Armor = 0;
+	
+	
 
 	void TakeDamage(float Damage);
+	void Heal(float BonusHealth);
 	
 };

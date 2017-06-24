@@ -26,7 +26,7 @@ void AMyOverwatchActor::SetCharacterHealthComponent(UCharacterHealthComponent* C
 float AMyOverwatchActor::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser){
 	
 	if(CharacterHealthComponent){
-		UE_LOG(LogTemp, Warning, TEXT("%s got damage!! "), *GetName());
+		CharacterHealthComponent->TakeDamage(Damage);
 	}
 
 	return Damage;

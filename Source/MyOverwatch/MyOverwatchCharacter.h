@@ -4,6 +4,7 @@
 #include "MyOverwatchCharacter.generated.h"
 
 class UInputComponent;
+class UCharacterHealthComponent;
 
 UCLASS(config=Game)
 class AMyOverwatchCharacter : public ACharacter
@@ -130,5 +131,11 @@ public:
 	/** Returns FirstPersonCameraComponent subobject **/
 	FORCEINLINE class UCameraComponent* GetFirstPersonCameraComponent() const { return FirstPersonCameraComponent; }
 
+	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
+	UCharacterHealthComponent* CharacterHealthComponent;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth);
 };
 
