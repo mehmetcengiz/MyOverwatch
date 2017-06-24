@@ -39,7 +39,7 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	
-	if(bIsPlayerShooting && FiringState == EFiringState::READY){ Shoot();}
+	if(bIsPlayerShooting && FiringState == EFiringState::READY){ ShootPrimary();}
 	
 	if(FiringState == EFiringState::NOT_READY){ HandleFiringRate();	}
 
@@ -48,7 +48,7 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 }
 
 
-void USoldier76Skills::Shoot(){
+void USoldier76Skills::ShootPrimary(){
 	
 	FiringState = EFiringState::NOT_READY;
 
