@@ -6,6 +6,7 @@
 #include "Soldier76Skills.generated.h"
 
 class URaycastShootingComponent;
+class ASoldier76PrimaryProjectile;
 
 UENUM()
 enum class EFiringState : uint8{
@@ -95,10 +96,20 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
-
+	
+	//Magazine settings.
 	UPROPERTY(EditdefaultsOnly, Category = "Firing")
 	int32 TotalAmmo = 25;
 	int32 CurrentAmmo;
-	
+
+	UPROPERTY(BlueprintReadWrite, Category="Setup")
+	UCameraComponent* FirstPersonCamera;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<ASoldier76PrimaryProjectile> ProjectileBluePrint;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetCameraComponent(UCameraComponent* ProjectileToSet);
+
 
 };

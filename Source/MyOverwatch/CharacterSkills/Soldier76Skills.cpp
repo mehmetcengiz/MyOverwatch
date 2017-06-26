@@ -5,6 +5,7 @@
 #include "Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
+#include "Projectiles/Soldier76PrimaryProjectile.h"
 
 #define OUT
 
@@ -15,7 +16,6 @@ USoldier76Skills::USoldier76Skills()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 
-	// ...
 }
 
 
@@ -150,4 +150,6 @@ void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Ra
 	RaycastShooting = Raycast;
 }
 
-
+void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
+	FirstPersonCamera = CameraToSet;
+}
