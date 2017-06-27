@@ -126,6 +126,13 @@ void USoldier76Skills::Reload(){
 
 void USoldier76Skills::FireSecondary(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
+
+	auto Location = FirstPersonCamera->GetComponentLocation();
+	auto Rotator = FirstPersonCamera->GetComponentRotation();
+
+	auto Projectile = GetWorld()->SpawnActor<ASoldier76PrimaryProjectile>(ProjectileBluePrint, Location, Rotator);
+
+
 }
 
 void USoldier76Skills::AbilityE(){
