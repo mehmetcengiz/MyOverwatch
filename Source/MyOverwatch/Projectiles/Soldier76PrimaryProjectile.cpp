@@ -8,7 +8,7 @@
 ASoldier76PrimaryProjectile::ASoldier76PrimaryProjectile()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
 
 	collisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
 	SetRootComponent(collisionMesh);
@@ -22,18 +22,14 @@ ASoldier76PrimaryProjectile::ASoldier76PrimaryProjectile()
 void ASoldier76PrimaryProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
-
-// Called every frame
-void ASoldier76PrimaryProjectile::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
+	collisionMesh->OnComponentHit.AddDynamic(this, &ASoldier76PrimaryProjectile::OnHit);
 }
 
 void ASoldier76PrimaryProjectile::LaunchProjectile(float speed) {
-	UE_LOG(LogTemp, Warning, TEXT("LAUNCHINGG !!!"));
 	projectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * speed);
 	projectileMovement->Activate();
+}
+
+void ASoldier76PrimaryProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit){
+	Destroy();
 }

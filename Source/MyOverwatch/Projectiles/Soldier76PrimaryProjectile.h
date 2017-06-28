@@ -20,9 +20,7 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
-
+	
 	void LaunchProjectile(float speed);
 
 	UPROPERTY(VisibleAnywhere, Category= "Components")
@@ -31,6 +29,7 @@ public:
 	UPROPERTY(VisibleAnywhere, Category= "Components")
 	UStaticMeshComponent *collisionMesh = nullptr;
 	
-
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent *HitComponent, AActor* OtherActor, UPrimitiveComponent *OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
 
 };
