@@ -136,7 +136,20 @@ void USoldier76Skills::FireSecondary(){
 	auto Projectile = GetWorld()->SpawnActor<ASoldier76PrimaryProjectile>(ProjectileBluePrint, Location, Rotator);
 	Projectile->LaunchProjectile(SecondaryProjectileSpeed);
 
+	//Firing sound.
+	if (FireSound != NULL) {
+		FVector ActorLocation;
+		ActorLocation = GetOwner()->GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
+	}
 
+	//Play firing animation.
+	if (FireAnimation != NULL) {
+		UAnimInstance * AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL) {
+			AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
 }
 
 void USoldier76Skills::AbilityE(){
