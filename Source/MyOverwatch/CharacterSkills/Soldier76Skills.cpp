@@ -128,8 +128,11 @@ void USoldier76Skills::FireSecondary(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
 
 	auto Location = FirstPersonCamera->GetComponentLocation();
-	auto Rotator = FirstPersonCamera->GetComponentRotation();
+	auto ForwardVector = FirstPersonCamera->GetForwardVector();
+	float Offset = 100;
+	Location += (ForwardVector * Offset);
 
+	auto Rotator = FirstPersonCamera->GetComponentRotation();
 	auto Projectile = GetWorld()->SpawnActor<ASoldier76PrimaryProjectile>(ProjectileBluePrint, Location, Rotator);
 
 
