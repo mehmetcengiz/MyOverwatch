@@ -10,6 +10,10 @@ ASoldier76PrimaryProjectile::ASoldier76PrimaryProjectile()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 
+	collisionMesh = CreateDefaultSubobject<UStaticMeshComponent>(FName("Collision Mesh"));
+	SetRootComponent(collisionMesh);
+	collisionMesh->SetNotifyRigidBodyCollision(true);
+
 	projectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(FName("Projectile Movement"));
 	projectileMovement->bAutoActivate = false;
 }

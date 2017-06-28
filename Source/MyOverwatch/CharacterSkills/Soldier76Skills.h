@@ -76,7 +76,7 @@ private:
 
 	//Secondary firing.
 	UPROPERTY(EditDefaultsOnly)
-	float SecondaryProjectileSpeed = 100;
+	float SecondaryProjectileSpeed = 4000;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
