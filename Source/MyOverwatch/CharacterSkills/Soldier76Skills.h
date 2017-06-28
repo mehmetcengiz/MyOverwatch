@@ -65,6 +65,7 @@ private:
 	float LastTimeFired;
 	bool bIsPlayerShooting;
 
+
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadingRate = 2.f;
 
@@ -72,6 +73,10 @@ private:
 	void HandleFiringRate();
 	void ReloadGun();
 	void Reload();
+
+	//Secondary firing.
+	UPROPERTY(EditDefaultsOnly)
+	float SecondaryProjectileSpeed = 100;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")

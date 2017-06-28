@@ -134,6 +134,7 @@ void USoldier76Skills::FireSecondary(){
 
 	auto Rotator = FirstPersonCamera->GetComponentRotation();
 	auto Projectile = GetWorld()->SpawnActor<ASoldier76PrimaryProjectile>(ProjectileBluePrint, Location, Rotator);
+	Projectile->LaunchProjectile(SecondaryProjectileSpeed);
 
 
 }
