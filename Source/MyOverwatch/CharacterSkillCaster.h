@@ -30,7 +30,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+private:	
 	
 	//Skill cooldown setups.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
@@ -56,6 +56,7 @@ public:
 	float AbilityUltimateChargeMax = 1000;
 	float CurrentUltimateCharge = 0;
 
+public:
 	//Called when any skill casted.
 	void FirePrimaryPressed();
 	void FirePrimaryReleased();

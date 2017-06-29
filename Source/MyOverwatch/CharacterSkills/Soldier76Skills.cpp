@@ -159,9 +159,11 @@ void USoldier76Skills::AbilityE(){
 void USoldier76Skills::AbilityUltimate(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Q casted by Soldier76");
 }
+
 void USoldier76Skills::AbilityShift(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift casted by Soldier76");
 }
+
 void USoldier76Skills::AbilityJump(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
 }
@@ -172,6 +174,14 @@ void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* 
 
 void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Raycast){
 	RaycastShooting = Raycast;
+}
+
+int32 USoldier76Skills::GetTotalAmmo(){
+	return TotalAmmo;
+}
+
+int32 USoldier76Skills::GetCurrentAmmo(){
+	return CurrentAmmo;
 }
 
 void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){

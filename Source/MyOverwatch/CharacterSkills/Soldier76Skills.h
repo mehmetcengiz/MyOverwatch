@@ -78,6 +78,11 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	float SecondaryProjectileSpeed = 4000;
 
+	//Magazine settings.
+	UPROPERTY(EditdefaultsOnly, Category = "Firing")
+	int32 TotalAmmo = 25;
+	int32 CurrentAmmo;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::READY;
@@ -102,10 +107,11 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
 	
-	//Magazine settings.
-	UPROPERTY(EditdefaultsOnly, Category = "Firing")
-	int32 TotalAmmo = 25;
-	int32 CurrentAmmo;
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int32 GetTotalAmmo();
+
+	UFUNCTION(BlueprintCallable, Category = "Ammo")
+	int32 GetCurrentAmmo();
 
 	UPROPERTY(BlueprintReadWrite, Category="Setup")
 	UCameraComponent* FirstPersonCamera;
