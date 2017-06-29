@@ -4,6 +4,23 @@
 #include "MyOverwatchGameMode.h"
 #include "MyOverwatchHUD.h"
 #include "MyOverwatchCharacter.h"
+#include "Blueprint/UserWidget.h"
+
+
+void AMyOverwatchGameMode::BeginPlay(){
+	Super::BeginPlay();
+	
+	AMyOverwatchCharacter* MyCharacter = Cast<AMyOverwatchCharacter>(UGameplayStatics::GetPlayerPawn(this, 0));
+
+	if(PlayerHUDClass != NULL){
+		CurrentWidget = CreateWidget<UUserWidget>(GetWorld(), PlayerHUDClass);
+		if(CurrentWidget != NULL){
+			CurrentWidget->AddToViewport();
+		}
+	}
+
+	
+}
 
 AMyOverwatchGameMode::AMyOverwatchGameMode()
 	: Super()

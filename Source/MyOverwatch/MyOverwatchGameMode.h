@@ -8,8 +8,18 @@ class AMyOverwatchGameMode : public AGameModeBase
 {
 	GENERATED_BODY()
 
+	virtual void BeginPlay() override;
+
 public:
 	AMyOverwatchGameMode();
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Ammo", Meta = (BlueprintProtected = "true"))
+	TSubclassOf<class UUserWidget> PlayerHUDClass;
+
+	UPROPERTY()
+	class UUserWidget* CurrentWidget;
 };
 
 
