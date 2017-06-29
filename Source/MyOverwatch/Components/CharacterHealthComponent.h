@@ -18,24 +18,27 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
+private:
 	//Character base health.
-	UPROPERTY(EditDefaultsOnly, Category="Health")
-	float Health;
+	UPROPERTY(EditDefaultsOnly, Category = "Health")
+	float CurrentHealth;
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float CurrentMaxHealth;
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float CharacterMaxHealth = 200;
 	UPROPERTY(EditDefaultsOnly, Category = "Health")
 	float Armor = 0;
+public:	
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	float GetCurrentHealth();
+	float GetCurrentMaxHealth();
+	
 	
 	
 
 	void TakeDamage(float Damage);
 	void Heal(float BonusHealth);
-	
+
 };

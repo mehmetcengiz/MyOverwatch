@@ -17,7 +17,7 @@ UCharacterHealthComponent::UCharacterHealthComponent(){
 void UCharacterHealthComponent::BeginPlay(){
 	Super::BeginPlay();
 	CurrentMaxHealth = CharacterMaxHealth;
-	Health = CharacterMaxHealth;
+	CurrentHealth = CharacterMaxHealth;
 	
 }
 
@@ -26,17 +26,26 @@ void UCharacterHealthComponent::BeginPlay(){
 void UCharacterHealthComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	if(Health <= 0){
+	CurrentMaxHealth = CharacterMaxHealth + Armor;
+	if(CurrentHealth <= 0){
 		GetOwner()->Destroy();
 	}
 }
 
+float UCharacterHealthComponent::GetCurrentHealth(){
+	return CurrentHealth;
+}
+
+float UCharacterHealthComponent::GetCurrentMaxHealth(){
+	return CurrentMaxHealth;
+}
+
 void UCharacterHealthComponent::TakeDamage(float Damage) {
 
-	Health -= Damage;
+	CurrentHealth -= Damage;
 }
 
 void UCharacterHealthComponent::Heal(float BonusHealth){
-	Health += BonusHealth;
+	CurrentHealth += BonusHealth;
 }
 
