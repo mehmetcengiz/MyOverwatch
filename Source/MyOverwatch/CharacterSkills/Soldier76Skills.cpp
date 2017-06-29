@@ -79,10 +79,6 @@ void USoldier76Skills::ShootPrimary(){
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
-
-	//Print current bullet on screen.
-	FString ShootingMessage(TEXT("Shoot!! Bullet Left: "));
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red,ShootingMessage + FString::FromInt(CurrentAmmo));
 }
 
 //Soldier76 keeps shooting when player keep pressing button.
