@@ -93,6 +93,13 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnAbilityJump OnAbilityJump;
 
+
+	UFUNCTION(BlueprintCallable, Category="Cooldown")
+	float GetFireSecondaryCoolDown();
+	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	//float GetAbilityECoolDown();
+	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	//float GetAbilityShiftCoolDown();
 	
 	
 

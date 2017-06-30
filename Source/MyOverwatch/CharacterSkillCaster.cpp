@@ -82,3 +82,14 @@ void UCharacterSkillCaster::AbilityUltimate(){
 		CurrentUltimateCharge = 0;
 	}
 }
+
+float UCharacterSkillCaster::GetFireSecondaryCoolDown(){
+	float TimeLeft = FPlatformTime::Seconds() - LastTimeFireSecondaryCasted;
+	
+	if(TimeLeft > FireSecondaryCoolDownTime){
+		return -1;
+	}else{
+		return TimeLeft;
+	}
+	
+}
