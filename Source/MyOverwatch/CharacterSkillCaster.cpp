@@ -122,3 +122,22 @@ int32 UCharacterSkillCaster::GetAbilityECoolDown(){
 ESkillCastingState UCharacterSkillCaster::GetAbilityESkillState(){
 	return AbilityECastingState;
 }
+
+int32 UCharacterSkillCaster::GetAbilityShiftCoolDown() {
+	if (AbilityShiftCastingState == ESkillCastingState::HAS_NO_COOLDOWN) { return -1; } // If has no cooldown return -1
+
+	float TimeLeft = FPlatformTime::Seconds() - LastTimeAbilityShiftCasted;
+
+	if (TimeLeft > AbilityShiftCoolDownTime) {
+		AbilityShiftCastingState = ESkillCastingState::READY;
+		return 0;
+	}
+	else {
+		AbilityShiftCastingState = ESkillCastingState::ON_COOLDOWN;
+		return (int32)(AbilityShiftCoolDownTime - TimeLeft) + 1; // +1 for displaying to player.
+	}
+}
+
+ESkillCastingState UCharacterSkillCaster::GetAbilityShiftSkillState() {
+	return AbilityShiftCastingState;
+}
