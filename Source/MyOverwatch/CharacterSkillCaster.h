@@ -112,6 +112,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Cooldown")
 	ESkillCastingState GetFireSecondarySkillState();
 
+	UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	int32 GetAbilityECoolDown();
+
+	UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	ESkillCastingState GetAbilityESkillState();
+
 	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
 	//float GetAbilityECoolDown();
 	//UFUNCTION(BlueprintCallable, Category = "Cooldown")

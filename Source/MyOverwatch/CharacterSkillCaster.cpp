@@ -92,7 +92,7 @@ int32 UCharacterSkillCaster::GetFireSecondaryCoolDown(){
 	
 	if(TimeLeft > FireSecondaryCoolDownTime){
 		FireSecondaryCastingState = ESkillCastingState::READY;
-		return -2;
+		return 0;
 	}else{
 		FireSecondaryCastingState = ESkillCastingState::ON_COOLDOWN;
 		return (int32)(FireSecondaryCoolDownTime - TimeLeft) + 1; // +1 for displaying to player.
@@ -102,4 +102,23 @@ int32 UCharacterSkillCaster::GetFireSecondaryCoolDown(){
 
 ESkillCastingState UCharacterSkillCaster::GetFireSecondarySkillState(){
 	return FireSecondaryCastingState;
+}
+
+int32 UCharacterSkillCaster::GetAbilityECoolDown(){
+	if (AbilityECastingState == ESkillCastingState::HAS_NO_COOLDOWN) { return -1; } // If has no cooldown return -1
+
+	float TimeLeft = FPlatformTime::Seconds() - LastTimeAbilityECasted;
+
+	if (TimeLeft > AbilityECoolDownTime) {
+		AbilityECastingState = ESkillCastingState::READY;
+		return 0;
+	}
+	else {
+		AbilityECastingState = ESkillCastingState::ON_COOLDOWN;
+		return (int32)(AbilityECoolDownTime - TimeLeft) + 1; // +1 for displaying to player.
+	}
+}
+
+ESkillCastingState UCharacterSkillCaster::GetAbilityESkillState(){
+	return AbilityECastingState;
 }
