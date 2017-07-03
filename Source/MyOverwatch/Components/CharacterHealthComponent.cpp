@@ -41,7 +41,6 @@ float UCharacterHealthComponent::GetCurrentMaxHealth(){
 }
 
 void UCharacterHealthComponent::TakeDamage(float Damage) {
-
 	CurrentHealth -= Damage;
 }
 

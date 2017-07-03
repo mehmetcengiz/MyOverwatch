@@ -243,3 +243,7 @@ void AMyOverwatchCharacter::SetCharacterHealthComponent(UCharacterHealthComponen
 UCharacterSkillCaster* AMyOverwatchCharacter::GetCharacterSkillCasterComponent(){
 	return CharacterSkillCaster;
 }
+
+UCharacterHealthComponent* AMyOverwatchCharacter::GetCharacterHealthComponent() {
+	return CharacterHealthComponent;
+}
