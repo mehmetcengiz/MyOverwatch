@@ -78,7 +78,7 @@ void UCharacterSkillCaster::AbilityJump(){
 
 void UCharacterSkillCaster::AbilityUltimate(){
 
-	if(CurrentUltimateCharge >= AbilityUltimateChargeMax){
+	if(CurrentUltimateCharge >= AbilityUltimateMaxCharge){
 		UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
 		OnAbilityUltimateCasted.Broadcast();
 		CurrentUltimateCharge = 0;
@@ -140,4 +140,16 @@ int32 UCharacterSkillCaster::GetAbilityShiftCoolDown() {
 
 ESkillCastingState UCharacterSkillCaster::GetAbilityShiftSkillState() {
 	return AbilityShiftCastingState;
+}
+
+int32 UCharacterSkillCaster::GetCurrentUltimateCharge(){
+	return CurrentUltimateCharge;
+}
+
+int32 UCharacterSkillCaster::GetMaxUltimateCharge(){
+	return AbilityUltimateMaxCharge;
+}
+
+void UCharacterSkillCaster::ChargeUltimate(){
+	CurrentUltimateCharge++;
 }

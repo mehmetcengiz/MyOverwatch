@@ -65,8 +65,8 @@ private:
 
 	//Maximum charge for ultimate.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
-	float AbilityUltimateChargeMax = 1000;
-	float CurrentUltimateCharge = 0;
+	int32 AbilityUltimateMaxCharge = 1000;
+	int32 CurrentUltimateCharge = 0;
 
 public:
 	//Called when any skill casted.
@@ -105,7 +105,7 @@ public:
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnAbilityJump OnAbilityJump;
 
-
+	//Ability cooldowns for UI
 	UFUNCTION(BlueprintCallable, Category="Cooldown")
 	int32 GetFireSecondaryCoolDown();
 	
@@ -124,10 +124,15 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Cooldown")
 	ESkillCastingState GetAbilityShiftSkillState();
 
-	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
-	//float GetAbilityECoolDown();
-	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
-	//float GetAbilityShiftCoolDown();
+	UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	int32 GetCurrentUltimateCharge();
+
+	UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	int32 GetMaxUltimateCharge();
+
+	UFUNCTION(BlueprintCallable, Category = "Ability")
+	void ChargeUltimate();
+
 	
 	
 
