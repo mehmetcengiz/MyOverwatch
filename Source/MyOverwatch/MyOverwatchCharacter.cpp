@@ -239,3 +239,7 @@ float AMyOverwatchCharacter::TakeDamage(float Damage, FDamageEvent const& Damage
 void AMyOverwatchCharacter::SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth){
 	CharacterHealthComponent = CharacterHealth;
 }
+
+UCharacterSkillCaster* AMyOverwatchCharacter::GetCharacterSkillCasterComponent(){
+	return CharacterSkillCaster;
+}

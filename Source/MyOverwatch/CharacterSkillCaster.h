@@ -17,6 +17,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftCasted);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityJump);
 
 
+UENUM()
+enum class ESkillCastingState : uint8{
+	HAS_NO_COOLDOWN,
+	READY,
+	ON_COOLDOWN
+};
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API UCharacterSkillCaster : public UActorComponent
 {
@@ -38,18 +45,23 @@ private:
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsFireSecondaryHaveCoolDown"))
 	float FireSecondaryCoolDownTime = 3.0f;
 	float LastTimeFireSecondaryCasted = 0;
+	ESkillCastingState FireSecondaryCastingState = ESkillCastingState::READY;
 
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityEHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityEHaveCoolDown"))
 	float AbilityECoolDownTime = 3.0f;
 	float LastTimeAbilityECasted = 0;
+	ESkillCastingState AbilityECastingState = ESkillCastingState::READY;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityShiftHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityShiftHaveCoolDown"))
 	float AbilityShiftCoolDownTime = 3.0f;
 	float LastTimeAbilityShiftCasted = 0;
+	ESkillCastingState AbilityShiftCastingState = ESkillCastingState::READY;
+
 
 	//Maximum charge for ultimate.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
@@ -95,7 +107,11 @@ public:
 
 
 	UFUNCTION(BlueprintCallable, Category="Cooldown")
-	float GetFireSecondaryCoolDown();
+	int32 GetFireSecondaryCoolDown();
+	
+	UFUNCTION(BlueprintCallable, Category = "Cooldown")
+	ESkillCastingState GetFireSecondarySkillState();
+
 	//UFUNCTION(BlueprintCallable, Category = "Cooldown")
 	//float GetAbilityECoolDown();
 	//UFUNCTION(BlueprintCallable, Category = "Cooldown")

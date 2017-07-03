@@ -18,6 +18,8 @@ UCharacterSkillCaster::UCharacterSkillCaster(){
 void UCharacterSkillCaster::BeginPlay(){
 	Super::BeginPlay();
 
+	if (!bIsFireSecondaryHaveCoolDown) { FireSecondaryCastingState = ESkillCastingState::HAS_NO_COOLDOWN; }
+
 }
 
 void UCharacterSkillCaster::FirePrimaryPressed(){
@@ -83,13 +85,21 @@ void UCharacterSkillCaster::AbilityUltimate(){
 	}
 }
 
-float UCharacterSkillCaster::GetFireSecondaryCoolDown(){
+int32 UCharacterSkillCaster::GetFireSecondaryCoolDown(){
+	if (FireSecondaryCastingState == ESkillCastingState::HAS_NO_COOLDOWN) { return -1; } // If has no cooldown return -1
+
 	float TimeLeft = FPlatformTime::Seconds() - LastTimeFireSecondaryCasted;
 	
 	if(TimeLeft > FireSecondaryCoolDownTime){
-		return -1;
+		FireSecondaryCastingState = ESkillCastingState::READY;
+		return -2;
 	}else{
-		return TimeLeft;
+		FireSecondaryCastingState = ESkillCastingState::ON_COOLDOWN;
+		return (int32)(FireSecondaryCoolDownTime - TimeLeft) + 1; // +1 for displaying to player.
 	}
 	
+}
+
+ESkillCastingState UCharacterSkillCaster::GetFireSecondarySkillState(){
+	return FireSecondaryCastingState;
 }

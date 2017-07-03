@@ -137,5 +137,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth);
+
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UCharacterSkillCaster* GetCharacterSkillCasterComponent();
 };
 
