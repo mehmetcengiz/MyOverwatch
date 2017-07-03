@@ -24,7 +24,7 @@ void AMyOverwatchHUD::DrawHUD()
 	const FVector2D Center(Canvas->ClipX * 0.5f, Canvas->ClipY * 0.5f);
 
 	// offset by half the texture's dimensions so that the center of the texture aligns with the center of the Canvas
-	const FVector2D CrosshairDrawPosition( (Center.X),
+	const FVector2D CrosshairDrawPosition( (Center.X - 7.f),
 										   (Center.Y - 7.f));
 
 	// draw the crosshair
