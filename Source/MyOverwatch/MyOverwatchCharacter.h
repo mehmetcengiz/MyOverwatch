@@ -77,7 +77,11 @@ protected:
 
 	void FireSecondaryReleased();
 
-	void AbilityE();
+	void AbilityEPressed();
+	void AbilityEReleased();
+
+	void AbilityShiftPressed();
+	void AbilityShiftReleased();
 
 	void AbilityUltimate();
 

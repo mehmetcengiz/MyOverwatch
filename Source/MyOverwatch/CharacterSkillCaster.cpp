@@ -46,23 +46,27 @@ void UCharacterSkillCaster::FireSecondaryReleased() {
 	OnFireSecondaryReleased.Broadcast();
 }
 
-void UCharacterSkillCaster::AbilityE(){
+void UCharacterSkillCaster::AbilityEPressed(){
 
 	if(!bIsAbilityEHaveCoolDown || FPlatformTime::Seconds() - LastTimeAbilityECasted > AbilityECoolDownTime){
 		UE_LOG(LogTemp, Warning, TEXT("Ability E casted."));
 		LastTimeAbilityECasted = FPlatformTime::Seconds();
-		OnAbilityECasted.Broadcast();
+		OnAbilityEPressed.Broadcast();
 	}else{
 		float cooldown = AbilityECoolDownTime + LastTimeAbilityECasted - FPlatformTime::Seconds();
 		UE_LOG(LogTemp, Warning, TEXT("Ability E is on cooldown %f"), cooldown);
 	}
 }
 
-void UCharacterSkillCaster::AbilityShift(){
+void UCharacterSkillCaster::AbilityEReleased() {
+	OnAbilityEReleased.Broadcast();
+}
+
+void UCharacterSkillCaster::AbilityShiftPressed(){
 
 	if(!bIsAbilityShiftHaveCoolDown || FPlatformTime::Seconds()- LastTimeAbilityShiftCasted > AbilityShiftCoolDownTime){
 		UE_LOG(LogTemp, Warning, TEXT("Ability Shift"));
-		OnAbilityShiftCasted.Broadcast();
+		OnAbilityShiftPressed.Broadcast();
 		LastTimeAbilityShiftCasted = FPlatformTime::Seconds();
 	}else{
 		float cooldown = AbilityShiftCoolDownTime + LastTimeAbilityShiftCasted - FPlatformTime::Seconds();
@@ -71,9 +75,16 @@ void UCharacterSkillCaster::AbilityShift(){
 
 }
 
-void UCharacterSkillCaster::AbilityJump(){
-	UE_LOG(LogTemp, Warning, TEXT("Ability Jump"));
-	OnAbilityJump.Broadcast();
+void UCharacterSkillCaster::AbilityShiftReleased() {
+	OnAbilityShiftReleased.Broadcast();
+}
+
+void UCharacterSkillCaster::AbilityJumpPressed(){
+	OnAbilityJumpPressed.Broadcast();
+}
+
+void UCharacterSkillCaster::AbilityJumpReleased() {
+	OnAbilityJumpReleased.Broadcast();
 }
 
 void UCharacterSkillCaster::AbilityUltimate(){

@@ -12,10 +12,13 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryReleased);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryReleased);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityECasted);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityEPressed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityEReleased);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityUltimateCasted);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftCasted);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityJump);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftPressed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityShiftReleased);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityJumpPressed);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnAbilityJumpReleased);
 
 
 UENUM()
@@ -78,9 +81,12 @@ public:
 	void FirePrimaryReleased();
 	void FireSecondaryPressed();
 	void FireSecondaryReleased();
-	void AbilityE();
-	void AbilityShift();
-	void AbilityJump();
+	void AbilityEPressed();
+	void AbilityEReleased();
+	void AbilityShiftPressed();
+	void AbilityShiftReleased();
+	void AbilityJumpPressed();
+	void AbilityJumpReleased();
 	void AbilityUltimate();
 
 private:
@@ -98,16 +104,24 @@ private:
 	FOnFireSecondaryReleased OnFireSecondaryReleased;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnAbilityECasted OnAbilityECasted;
+	FOnAbilityEPressed OnAbilityEPressed;
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityEReleased OnAbilityEReleased;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnAbilityUltimateCasted OnAbilityUltimateCasted;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnAbilityShiftCasted OnAbilityShiftCasted;
+	FOnAbilityShiftPressed OnAbilityShiftPressed;
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
-	FOnAbilityJump OnAbilityJump;
+	FOnAbilityShiftReleased OnAbilityShiftReleased;
+
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityJumpPressed OnAbilityJumpPressed;
+	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
+	FOnAbilityJumpReleased OnAbilityJumpReleased;
+
 public:
 
 	//Ability cooldowns for UI

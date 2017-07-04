@@ -89,13 +89,15 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
 
-	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityE);
+	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityEPressed);
 	PlayerInputComponent->BindAction("AbilityQ", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
 	PlayerInputComponent->BindAction("FirePrimary", IE_Pressed, this, &AMyOverwatchCharacter::FirePrimaryPressed);
 	PlayerInputComponent->BindAction("FirePrimary", IE_Released, this, &AMyOverwatchCharacter::FirePrimaryReleased);
 	PlayerInputComponent->BindAction("FireSecondary", IE_Pressed, this, &AMyOverwatchCharacter::FireSecondaryPressed);
 	PlayerInputComponent->BindAction("FireSecondary", IE_Released, this, &AMyOverwatchCharacter::FireSecondaryReleased);
 	PlayerInputComponent->BindAction("AbilityUltimate", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
+	PlayerInputComponent->BindAction("AbilityShift", IE_Pressed, this, &AMyOverwatchCharacter::AbilityShiftPressed);
+	PlayerInputComponent->BindAction("AbilityShift", IE_Released, this, &AMyOverwatchCharacter::AbilityShiftReleased);
 	
 	
 	PlayerInputComponent->BindAxis("MoveForward", this, &AMyOverwatchCharacter::MoveForward);
@@ -110,9 +112,25 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	PlayerInputComponent->BindAxis("LookUpRate", this, &AMyOverwatchCharacter::LookUpAtRate);
 }
 
-void AMyOverwatchCharacter::AbilityE(){
+void AMyOverwatchCharacter::AbilityEPressed(){
 	if (CharacterSkillCaster == nullptr) { return; }
-	CharacterSkillCaster->AbilityE();
+	CharacterSkillCaster->AbilityEPressed();
+}
+
+void AMyOverwatchCharacter::AbilityEReleased(){
+	if (CharacterSkillCaster == nullptr) { return; }
+	CharacterSkillCaster->AbilityEReleased();
+}
+
+void AMyOverwatchCharacter::AbilityShiftPressed(){
+	if (CharacterSkillCaster == nullptr) { return; }
+	CharacterSkillCaster->AbilityShiftPressed();
+
+}
+
+void AMyOverwatchCharacter::AbilityShiftReleased(){
+	if (CharacterSkillCaster == nullptr) { return; }
+	CharacterSkillCaster->AbilityShiftPressed();
 }
 
 void AMyOverwatchCharacter::AbilityUltimate(){
