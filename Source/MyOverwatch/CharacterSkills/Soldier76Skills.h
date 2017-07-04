@@ -55,7 +55,10 @@ protected:
 	void AbilityUltimate();
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
-	void AbilityShift();
+	void AbilityShiftPressed();
+
+	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
+	void AbilityShiftReleased();
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void AbilityJump();

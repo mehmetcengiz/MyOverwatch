@@ -158,8 +158,13 @@ void USoldier76Skills::AbilityUltimate(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Q casted by Soldier76");
 }
 
-void USoldier76Skills::AbilityShift(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift casted by Soldier76");
+void USoldier76Skills::AbilityShiftPressed(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift Pressed by Soldier76");
+}
+
+void USoldier76Skills::AbilityShiftReleased(){
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift Released by Soldier76");
+
 }
 
 void USoldier76Skills::AbilityJump(){
