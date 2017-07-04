@@ -33,7 +33,7 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-public:	
+	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
@@ -85,44 +85,50 @@ private:
 	int32 TotalAmmo = 25;
 	int32 CurrentAmmo;
 
-	UPROPERTY(EditdefaultsOnly,Category ="Firing")
+	UPROPERTY()
+	URaycastShootingComponent* RaycastShooting = nullptr;
+
+	UPROPERTY(EditdefaultsOnly, Category = "Firing")
 	UCharacterSkillCaster* SkillCaster = nullptr;
 
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::READY;
+	
+	UPROPERTY(BlueprintReadWrite, Category = "Setup")
+	UCameraComponent* FirstPersonCamera = nullptr;
 
 public:
 	/** Sound to play each time we fire */
 	UPROPERTY(EditDefaultsOnly,Category="Firing")
-	class USoundBase* FireSound;
+	USoundBase* FireSound;
 
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	class UAnimMontage* FireAnimation;
+	UAnimMontage* FireAnimation;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
-	class USkeletalMeshComponent* Mesh1P;
+	UPROPERTY()
+	USkeletalMeshComponent* Mesh1P;
+	
 
-	class URaycastShootingComponent* RaycastShooting;
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
+	
 	
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	int32 GetTotalAmmo();
 
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	int32 GetCurrentAmmo();
-
-	UPROPERTY(BlueprintReadWrite, Category="Setup")
-	UCameraComponent* FirstPersonCamera;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<ASoldier76PrimaryProjectile> ProjectileBluePrint;
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* ProjectileToSet);

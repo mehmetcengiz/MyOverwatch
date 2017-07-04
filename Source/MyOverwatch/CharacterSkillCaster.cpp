@@ -85,6 +85,10 @@ void UCharacterSkillCaster::AbilityUltimate(){
 	}
 }
 
+void UCharacterSkillCaster::ChargeUltimate(){
+	CurrentUltimateCharge++;
+}
+
 int32 UCharacterSkillCaster::GetFireSecondaryCoolDown(){
 	if (FireSecondaryCastingState == ESkillCastingState::HAS_NO_COOLDOWN) { return -1; } // If has no cooldown return -1
 
@@ -150,6 +154,4 @@ int32 UCharacterSkillCaster::GetMaxUltimateCharge(){
 	return AbilityUltimateMaxCharge;
 }
 
-void UCharacterSkillCaster::ChargeUltimate(){
-	CurrentUltimateCharge++;
-}
+

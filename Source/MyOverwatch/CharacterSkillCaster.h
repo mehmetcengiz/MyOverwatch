@@ -7,6 +7,7 @@
 
 class UCharacterSkills;
 
+//Delegates for casting skills.
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryPressed);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFirePrimaryReleased);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnFireSecondaryPressed);
@@ -39,14 +40,17 @@ protected:
 
 private:	
 	
-	//Skill cooldown setups.
+	/*Secondary Fire cooldown setups.*/
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsFireSecondaryHaveCoolDown = true;
+
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsFireSecondaryHaveCoolDown"))
 	float FireSecondaryCoolDownTime = 3.0f;
+
 	float LastTimeFireSecondaryCasted = 0;
 	ESkillCastingState FireSecondaryCastingState = ESkillCastingState::READY;
 
+	/*Ability E Cooldown setups.*/
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityEHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityEHaveCoolDown"))
@@ -54,7 +58,7 @@ private:
 	float LastTimeAbilityECasted = 0;
 	ESkillCastingState AbilityECastingState = ESkillCastingState::READY;
 
-
+	/*Ability Shift Cooldown setups*/
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	bool bIsAbilityShiftHaveCoolDown = true;
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup", meta = (EditCondition = "bIsAbilityShiftHaveCoolDown"))
@@ -63,12 +67,12 @@ private:
 	ESkillCastingState AbilityShiftCastingState = ESkillCastingState::READY;
 
 
-	//Maximum charge for ultimate.
+	/*Ultimate setups*/
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
 	int32 AbilityUltimateMaxCharge = 100;
 	int32 CurrentUltimateCharge = 0;
-
 public:
+
 	//Called when any skill casted.
 	void FirePrimaryPressed();
 	void FirePrimaryReleased();
@@ -79,7 +83,7 @@ public:
 	void AbilityJump();
 	void AbilityUltimate();
 
-
+private:
 	//When any skill casted those event will be broadcasted.
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnFirePrimaryPressed OnFirePrimaryPressed;
@@ -104,6 +108,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable, Category = "EventDispatchers")
 	FOnAbilityJump OnAbilityJump;
+public:
 
 	//Ability cooldowns for UI
 	UFUNCTION(BlueprintCallable, Category="Cooldown")

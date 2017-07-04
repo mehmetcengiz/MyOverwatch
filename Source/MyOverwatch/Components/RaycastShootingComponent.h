@@ -41,12 +41,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetPlayerController(AController* controller);
 
+	bool Shoot();
 
+private:
+	UPROPERTY()
 	UCameraComponent* FirstPersonCamera = nullptr;
 
+	UPROPERTY()
 	AController* PlayerController = nullptr;
 
 
-	bool Shoot();
+	
 	
 };

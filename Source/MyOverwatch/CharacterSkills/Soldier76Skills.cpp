@@ -47,16 +47,9 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 void USoldier76Skills::ShootPrimary(){
 
 	FiringState = EFiringState::NOT_READY;
+	
 
-	if (RaycastShooting != NULL){
-		if (RaycastShooting->Shoot()){
-			if (SkillCaster){
-				SkillCaster->ChargeUltimate();
-			}
-		}
-	}
-
-
+	
 	//If no bullet change firing state to Out_Of_Ammo.
 	if (CurrentAmmo <= 0){
 		FiringState = EFiringState::OUT_OF_AMMO;
@@ -64,6 +57,14 @@ void USoldier76Skills::ShootPrimary(){
 	}
 	CurrentAmmo--;
 
+	// Cast a ray. If hits something charge ultimate.
+	if (RaycastShooting != NULL){
+		if (RaycastShooting->Shoot()){
+			if (SkillCaster != NULL){
+				SkillCaster->ChargeUltimate();
+			}
+		}
+	}
 	//Play firing sound.
 	if (FireSound != NULL){
 		FVector ActorLocation;
@@ -121,6 +122,8 @@ void USoldier76Skills::Reload(){
 
 void USoldier76Skills::FireSecondary(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
+
+	if (FirstPersonCamera == NULL) { return; }
 
 	auto Location = FirstPersonCamera->GetComponentLocation();
 	auto ForwardVector = FirstPersonCamera->GetForwardVector();
