@@ -31,14 +31,14 @@ void URaycastShootingComponent::SetPlayerController(AController* controller){
 	PlayerController = controller;
 }
 
-void URaycastShootingComponent::Shoot(){
+bool URaycastShootingComponent::Shoot(){
 
 	//For multiple bullet increase RayPerShot.
 	for (int32 i = 0; i<RayPerShot;i++){
 				
 		//Get StartTrace and Forward Vector
 		FHitResult* HitResult = new FHitResult();
-		if (FirstPersonCamera == NULL) { return; }
+		if (FirstPersonCamera == NULL) { return false; }
 		FVector StartTrace = FirstPersonCamera->GetComponentLocation();
 		FVector ForwardVector = FirstPersonCamera->GetForwardVector();
 	
@@ -61,10 +61,13 @@ void URaycastShootingComponent::Shoot(){
 				TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
 				FDamageEvent DamageEvent(ValidDamageTypeClass);
 
-				if (PlayerController == NULL) { return; }
+				if (PlayerController == NULL) { return false; }
 				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
+				
 				UE_LOG(LogTemp, Warning, TEXT("%s TARGET HIT "), *HitResult->GetActor()->GetName());
+				return true;
 			}
 		}
 	}
+	return false;
 }

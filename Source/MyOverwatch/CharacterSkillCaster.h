@@ -65,7 +65,7 @@ private:
 
 	//Maximum charge for ultimate.
 	UPROPERTY(EditDefaultsOnly, Category = "SkillSetup")
-	int32 AbilityUltimateMaxCharge = 1000;
+	int32 AbilityUltimateMaxCharge = 100;
 	int32 CurrentUltimateCharge = 0;
 
 public:

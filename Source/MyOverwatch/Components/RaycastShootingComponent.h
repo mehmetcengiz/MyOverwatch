@@ -47,6 +47,6 @@ public:
 	AController* PlayerController = nullptr;
 
 
-	void Shoot();
+	bool Shoot();
 	
 };

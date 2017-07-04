@@ -5,13 +5,13 @@
 #include "Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
+#include "CharacterSkillCaster.h"
 #include "Projectiles/Soldier76PrimaryProjectile.h"
 
 #define OUT
 
 // Sets default values for this component's properties
-USoldier76Skills::USoldier76Skills()
-{
+USoldier76Skills::USoldier76Skills(){
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
@@ -20,62 +20,61 @@ USoldier76Skills::USoldier76Skills()
 
 
 // Called when the game starts
-void USoldier76Skills::BeginPlay()
-{
+void USoldier76Skills::BeginPlay(){
 	Super::BeginPlay();
 	bIsPlayerShooting = false;
 	CurrentAmmo = TotalAmmo;
-	
+
 	//TODO Bind the events of player skills.
-	
+
 }
 
 
-
-
 // Called every frame
-void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
+void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	
-	if(bIsPlayerShooting && FiringState == EFiringState::READY){ ShootPrimary();}
-	
-	if(FiringState == EFiringState::NOT_READY){ HandleFiringRate();	}
 
-	if (FiringState == EFiringState::OUT_OF_AMMO) { ReloadGun(); }
+	if (bIsPlayerShooting && FiringState == EFiringState::READY){ ShootPrimary(); }
+
+	if (FiringState == EFiringState::NOT_READY){ HandleFiringRate(); }
+
+	if (FiringState == EFiringState::OUT_OF_AMMO){ ReloadGun(); }
 
 }
 
 
 void USoldier76Skills::ShootPrimary(){
-	
+
 	FiringState = EFiringState::NOT_READY;
 
-	//TODO implement shooting.
-	if(RaycastShooting != NULL){
-		RaycastShooting->Shoot();
+	if (RaycastShooting != NULL){
+		if (RaycastShooting->Shoot()){
+			if (SkillCaster){
+				SkillCaster->ChargeUltimate();
+			}
+		}
 	}
-	
+
 
 	//If no bullet change firing state to Out_Of_Ammo.
-	if(CurrentAmmo <=0){
+	if (CurrentAmmo <= 0){
 		FiringState = EFiringState::OUT_OF_AMMO;
 		return;
 	}
 	CurrentAmmo--;
 
 	//Play firing sound.
-	if(FireSound != NULL){
+	if (FireSound != NULL){
 		FVector ActorLocation;
 		ActorLocation = GetOwner()->GetActorLocation();
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
 	}
 
 	//Play firing animation.
-	if(FireAnimation != NULL){
-		UAnimInstance * AnimInstance = Mesh1P->GetAnimInstance();
-		if(AnimInstance != NULL){
+	if (FireAnimation != NULL){
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL){
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
@@ -92,7 +91,7 @@ void USoldier76Skills::FirePrimaryReleased(){
 }
 
 //Calls MakeReadyGunToNextShot method with delay to Handle Firing Rate.
-void USoldier76Skills::HandleFiringRate() {
+void USoldier76Skills::HandleFiringRate(){
 	FiringState = EFiringState::GETTING_READY;
 	FTimerHandle Handle;
 	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, PrimaryFiringRate, false);
@@ -133,16 +132,16 @@ void USoldier76Skills::FireSecondary(){
 	Projectile->LaunchProjectile(SecondaryProjectileSpeed);
 
 	//Firing sound.
-	if (FireSound != NULL) {
+	if (FireSound != NULL){
 		FVector ActorLocation;
 		ActorLocation = GetOwner()->GetActorLocation();
 		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
 	}
 
 	//Play firing animation.
-	if (FireAnimation != NULL) {
-		UAnimInstance * AnimInstance = Mesh1P->GetAnimInstance();
-		if (AnimInstance != NULL) {
+	if (FireAnimation != NULL){
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL){
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
@@ -164,7 +163,7 @@ void USoldier76Skills::AbilityJump(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
 }
 
-void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
+void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh){
 	Mesh1P = Mesh;
 }
 
@@ -182,4 +181,8 @@ int32 USoldier76Skills::GetCurrentAmmo(){
 
 void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
 	FirstPersonCamera = CameraToSet;
+}
+
+void USoldier76Skills::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){
+	SkillCaster = SkillCasterToSet;
 }

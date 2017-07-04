@@ -5,8 +5,10 @@
 #include "Components/ActorComponent.h"
 #include "Soldier76Skills.generated.h"
 
+
 class URaycastShootingComponent;
 class ASoldier76PrimaryProjectile;
+class UCharacterSkillCaster;
 
 UENUM()
 enum class EFiringState : uint8{
@@ -83,6 +85,9 @@ private:
 	int32 TotalAmmo = 25;
 	int32 CurrentAmmo;
 
+	UPROPERTY(EditdefaultsOnly,Category ="Firing")
+	UCharacterSkillCaster* SkillCaster = nullptr;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringState FiringState = EFiringState::READY;
@@ -121,6 +126,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* ProjectileToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);
 
 
 };
