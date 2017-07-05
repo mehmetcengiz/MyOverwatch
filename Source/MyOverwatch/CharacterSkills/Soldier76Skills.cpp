@@ -35,11 +35,12 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 
-	if (bIsPlayerShooting && FiringState == EFiringState::READY){ ShootPrimary(); }
+	if (bIsPlayerShooting && FiringState == EFiringState::READY && !bIsShiftCasted){ ShootPrimary(); }
 
 	if (FiringState == EFiringState::NOT_READY){ HandleFiringRate(); }
 
 	if (FiringState == EFiringState::OUT_OF_AMMO){ ReloadGun(); }
+
 
 }
 
@@ -159,12 +160,15 @@ void USoldier76Skills::AbilityUltimate(){
 }
 
 void USoldier76Skills::AbilityShiftPressed(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift Pressed by Soldier76");
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Shift Pressed by Soldier76");
+	bIsShiftCasted = true;
+	ChangeRunningSpeed(FastRunningSpeed);
 }
 
 void USoldier76Skills::AbilityShiftReleased(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Shift Released by Soldier76");
-
+	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Shift Released by Soldier76");
+	bIsShiftCasted = false;
+	ChangeRunningSpeed(DefaultRunningSpeed);
 }
 
 void USoldier76Skills::AbilityJump(){
@@ -177,6 +181,15 @@ void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* 
 
 void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Raycast){
 	RaycastShooting = Raycast;
+}
+
+void USoldier76Skills::ChangeRunningSpeed(float speed){
+	MovementComponent->MaxWalkSpeed = speed;
+	UE_LOG(LogTemp, Warning, TEXT("MaxWalkSpeed has been changed to : %f"), MovementComponent->MaxWalkSpeed);
+}
+
+void USoldier76Skills::SetMovementComponent(UCharacterMovementComponent* MovementComponentToSet){
+	MovementComponent = MovementComponentToSet;
 }
 
 int32 USoldier76Skills::GetTotalAmmo(){

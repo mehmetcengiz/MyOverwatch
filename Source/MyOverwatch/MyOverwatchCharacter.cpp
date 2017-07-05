@@ -130,7 +130,7 @@ void AMyOverwatchCharacter::AbilityShiftPressed(){
 
 void AMyOverwatchCharacter::AbilityShiftReleased(){
 	if (CharacterSkillCaster == nullptr) { return; }
-	CharacterSkillCaster->AbilityShiftPressed();
+	CharacterSkillCaster->AbilityShiftReleased();
 }
 
 void AMyOverwatchCharacter::AbilityUltimate(){

@@ -90,26 +90,11 @@ private:
 
 	UPROPERTY()
 	URaycastShootingComponent* RaycastShooting = nullptr;
-	
-	UPROPERTY()
-	UCharacterMovementComponent* MovementComponent= nullptr;
 
 	UPROPERTY(EditdefaultsOnly, Category = "Firing")
 	UCharacterSkillCaster* SkillCaster = nullptr;
-	
 
 	//For Shift Ability.
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float FastRunningSpeed = 1000.0f;
-	
-	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	float DefaultRunningSpeed = 600.0f;
-
-	bool bIsShiftCasted = false;
-	void ChangeRunningSpeed(float speed);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetMovementComponent(UCharacterMovementComponent* MovementComponentToSet);
 
 
 protected:
