@@ -85,6 +85,9 @@ protected:
 
 	void AbilityUltimate();
 
+	void AbilityJumpPressed();
+	void AbilityJumpReleased();
+
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);
 

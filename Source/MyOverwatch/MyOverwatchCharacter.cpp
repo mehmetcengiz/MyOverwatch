@@ -86,8 +86,8 @@ void AMyOverwatchCharacter::SetupPlayerInputComponent(class UInputComponent* Pla
 	// set up gameplay key bindings
 	check(PlayerInputComponent);
 
-	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AMyOverwatchCharacter::AbilityJumpPressed);
+	PlayerInputComponent->BindAction("Jump", IE_Released, this, &AMyOverwatchCharacter::AbilityJumpReleased);
 
 	PlayerInputComponent->BindAction("AbilityE", IE_Pressed, this, &AMyOverwatchCharacter::AbilityEPressed);
 	PlayerInputComponent->BindAction("AbilityQ", IE_Pressed, this, &AMyOverwatchCharacter::AbilityUltimate);
@@ -137,6 +137,19 @@ void AMyOverwatchCharacter::AbilityUltimate(){
 	if (CharacterSkillCaster == nullptr) { return; }
 	CharacterSkillCaster->AbilityUltimate();
 	
+}
+
+void AMyOverwatchCharacter::AbilityJumpPressed(){
+	ACharacter::Jump();
+	if (CharacterSkillCaster == nullptr) { return; }
+	CharacterSkillCaster->AbilityJumpPressed();
+}
+
+void AMyOverwatchCharacter::AbilityJumpReleased(){
+	ACharacter::StopJumping();
+	if (CharacterSkillCaster == nullptr) { return; }
+	CharacterSkillCaster->AbilityJumpReleased();
+
 }
 
 void AMyOverwatchCharacter::FirePrimaryPressed()
