@@ -27,6 +27,7 @@ float AMyOverwatchActor::TakeDamage(float Damage, FDamageEvent const& DamageEven
 	
 	if(CharacterHealthComponent){
 		CharacterHealthComponent->TakeDamage(Damage);
+		UE_LOG(LogTemp, Warning, TEXT("MyOverwatchActor got damage !!"));
 	}
 
 	return Damage;
