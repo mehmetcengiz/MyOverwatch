@@ -9,6 +9,7 @@
 class URaycastShootingComponent;
 class ASoldier76PrimaryProjectile;
 class UCharacterSkillCaster;
+class ASoldier76Healer;
 
 UENUM()
 enum class EFiringState : uint8{
@@ -144,6 +145,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<ASoldier76PrimaryProjectile> ProjectileBluePrint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<ASoldier76Healer> SoldierHealerBluePrint;
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
