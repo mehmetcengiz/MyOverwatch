@@ -155,8 +155,10 @@ void USoldier76Skills::FireSecondary(){
 void USoldier76Skills::AbilityE(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary E casted by Soldier76");
 
-	auto Location = GetOwner()->GetActorLocation();
+	auto CharacterLocation = GetOwner()->GetActorLocation();
+	FVector Location = FVector(CharacterLocation.X, CharacterLocation.Y, 170.f);	
 	auto HeallerActor = GetWorld()->SpawnActor<ASoldier76Healer>(SoldierHealerBluePrint, Location, FRotator(0, 0, 0));
+
 
 
 
