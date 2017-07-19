@@ -141,11 +141,7 @@ public:
 	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	UCharacterHealthComponent* CharacterHealthComponent;
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth);
-
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	UCharacterSkillCaster* GetCharacterSkillCasterComponent();
 

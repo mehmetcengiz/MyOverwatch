@@ -55,6 +55,8 @@ AMyOverwatchCharacter::AMyOverwatchCharacter()
 
 	//Character Skill Caster
 	CharacterSkillCaster = CreateDefaultSubobject<UCharacterSkillCaster>(TEXT("CharacterSkillCaster"));
+	//Character Health
+	CharacterHealthComponent = CreateDefaultSubobject<UCharacterHealthComponent>(TEXT("CharacterHealth"));
 
 
 }
@@ -265,10 +267,6 @@ float AMyOverwatchCharacter::TakeDamage(float Damage, FDamageEvent const& Damage
 		CharacterHealthComponent->TakeDamage(Damage);
 	}
 	return Damage;
-}
-
-void AMyOverwatchCharacter::SetCharacterHealthComponent(UCharacterHealthComponent* CharacterHealth){
-	CharacterHealthComponent = CharacterHealth;
 }
 
 UCharacterSkillCaster* AMyOverwatchCharacter::GetCharacterSkillCasterComponent(){
