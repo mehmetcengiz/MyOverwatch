@@ -33,6 +33,7 @@ void URaycastShootingComponent::SetPlayerController(AController* controller){
 
 bool URaycastShootingComponent::Shoot(){
 
+	bool bHitResult = false;
 	//For multiple bullet increase RayPerShot.
 	for (int32 i = 0; i<RayPerShot;i++){
 				
@@ -65,9 +66,10 @@ bool URaycastShootingComponent::Shoot(){
 				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
 				
 				UE_LOG(LogTemp, Warning, TEXT("%s TARGET HIT "), *HitResult->GetActor()->GetName());
-				return true;
+				bHitResult = true;
 			}
 		}
 	}
-	return false;
+	return bHitResult;
 }
+
