@@ -45,6 +45,12 @@ void UCharacterHealthComponent::TakeDamage(float Damage) {
 }
 
 void UCharacterHealthComponent::Heal(float BonusHealth){
-	CurrentHealth += BonusHealth;
+	
+	if((CurrentHealth + BonusHealth) <CurrentMaxHealth){
+		CurrentHealth += BonusHealth;
+	}else{
+		CurrentHealth = CurrentMaxHealth;
+	}
+	
 }
 
