@@ -38,7 +38,7 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 	if (bIsPlayerShooting && FiringState == EFiringState::READY && !bIsShiftCasted){ ShootPrimary(); }
 
-	if (FiringState == EFiringState::NOT_READY){ HandleFiringRate(); }
+	if (FiringState == EFiringState::NOT_READY){ MakeReadyGunToNextShot(); }
 
 	if (FiringState == EFiringState::OUT_OF_AMMO){ ReloadGun(); }
 
@@ -93,16 +93,16 @@ void USoldier76Skills::FirePrimaryReleased(){
 	bIsPlayerShooting = false;
 }
 
-//Calls MakeReadyGunToNextShot method with delay to Handle Firing Rate.
+//Calls from MakeReadyGunToNextShot method with delay to Handle Firing Rate.
 void USoldier76Skills::HandleFiringRate(){
-	FiringState = EFiringState::GETTING_READY;
-	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::MakeReadyGunToNextShot, PrimaryFiringRate, false);
+	FiringState = EFiringState::READY;
 }
 
-//Used for firing rate by HandleFiringRate method.
+//Handles firing rate.
 void USoldier76Skills::MakeReadyGunToNextShot(){
-	FiringState = EFiringState::READY;
+	FiringState = EFiringState::GETTING_READY;
+	FTimerHandle Handle;
+	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::HandleFiringRate, PrimaryFiringRate, false);
 }
 
 //Reloading state. Reload Animation, Sound etc.
@@ -129,7 +129,7 @@ void USoldier76Skills::FireSecondary(){
 
 	auto Location = FirstPersonCamera->GetComponentLocation();
 	auto ForwardVector = FirstPersonCamera->GetForwardVector();
-	float Offset = 100;
+	float Offset = 100;	//TODO tune offset after.
 	Location += (ForwardVector * Offset);
 
 	auto Rotator = FirstPersonCamera->GetComponentRotation();
@@ -169,19 +169,16 @@ void USoldier76Skills::AbilityUltimate(){
 }
 
 void USoldier76Skills::AbilityShiftPressed(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Shift Pressed by Soldier76");
 	bIsShiftCasted = true;
 	ChangeRunningSpeed(FastRunningSpeed);
 }
 
 void USoldier76Skills::AbilityShiftReleased(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Shift Released by Soldier76");
 	bIsShiftCasted = false;
 	ChangeRunningSpeed(DefaultRunningSpeed);
 }
 
 void USoldier76Skills::AbilityJump(){
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Jump casted by Soldier76");
 }
 
 void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh){
@@ -194,7 +191,6 @@ void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Ra
 
 void USoldier76Skills::ChangeRunningSpeed(float speed){
 	MovementComponent->MaxWalkSpeed = speed;
-	UE_LOG(LogTemp, Warning, TEXT("MaxWalkSpeed has been changed to : %f"), MovementComponent->MaxWalkSpeed);
 }
 
 void USoldier76Skills::SetMovementComponent(UCharacterMovementComponent* MovementComponentToSet){

@@ -33,7 +33,7 @@ void URaycastShootingComponent::SetPlayerController(AController* controller){
 
 bool URaycastShootingComponent::Shoot(){
 
-	bool bHitResult = false;
+	bool bIsEnemy = false; // return true if hits enemy.
 	//For multiple bullet increase RayPerShot.
 	for (int32 i = 0; i<RayPerShot;i++){
 				
@@ -63,13 +63,13 @@ bool URaycastShootingComponent::Shoot(){
 				FDamageEvent DamageEvent(ValidDamageTypeClass);
 
 				if (PlayerController == NULL) { return false; }
-				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
 				
-				UE_LOG(LogTemp, Warning, TEXT("%s TARGET HIT "), *HitResult->GetActor()->GetName());
-				bHitResult = true;
+				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
+				bIsEnemy = true; //TODO add tag later.
+				UE_LOG(LogTemp, Warning, TEXT("%f asdasd ") , bIsEnemy);
 			}
 		}
 	}
-	return bHitResult;
+	return bIsEnemy;
 }
 
