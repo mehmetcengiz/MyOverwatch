@@ -22,9 +22,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	//void SetCameraComponent(UCameraComponent* CameraCompToSet);
+	void SetCameraComponent(UCameraComponent* CameraCompToSet);
 
 private:
-	//UCameraComponent* CharacterCamera;
+	UCameraComponent* CharacterCamera;
 	
 };

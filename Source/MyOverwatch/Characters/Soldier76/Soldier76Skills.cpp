@@ -177,6 +177,7 @@ void USoldier76Skills::AbilityUltimate(){
 	auto Rotator = FirstPersonCamera->GetComponentRotation();
 
 	auto UltimateCone = GetWorld()->SpawnActor<ASoldier76Ultimate>(Soldier76UltimateCone, Location, Rotator);
+	UltimateCone->SetCameraComponent(FirstPersonCamera);
 	
 
 }

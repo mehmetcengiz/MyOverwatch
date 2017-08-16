@@ -24,14 +24,15 @@ void ASoldier76Ultimate::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 	
-	//if(CharacterCamera != NULL){
-	//	SetActorLocation(CharacterCamera->GetComponentLocation(), false, nullptr, ETeleportType::None);
-	//}
+	if(CharacterCamera != NULL){
+		SetActorLocation(CharacterCamera->GetComponentLocation());
+		SetActorRotation(CharacterCamera->GetComponentRotation());
+	}
 	
 
 }
 
-//void ASoldier76Ultimate::SetCameraComponent(UCameraComponent* CameraCompToSet){
-//	CharacterCamera = CameraCompToSet;
-//}
+void ASoldier76Ultimate::SetCameraComponent(UCameraComponent* CameraCompToSet){
+	CharacterCamera = CameraCompToSet;
+}
 
