@@ -149,6 +149,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<ASoldier76Healer> SoldierHealerBluePrint;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<class ASoldier76Ultimate> Soldier76UltimateCone;
+	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
 
@@ -156,7 +159,7 @@ public:
 	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetCameraComponent(UCameraComponent* ProjectileToSet);
+	void SetCameraComponent(UCameraComponent* CameraToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);

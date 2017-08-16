@@ -8,6 +8,7 @@
 #include "CharacterSkillCaster.h"
 #include "./Characters/Soldier76/Soldier76SecondaryProjectile.h"
 #include "./Characters/Soldier76/Soldier76Healer.h"
+#include "./Characters/Soldier76/Soldier76Ultimate.h"
 
 #define OUT
 
@@ -166,6 +167,18 @@ void USoldier76Skills::AbilityE(){
 
 void USoldier76Skills::AbilityUltimate(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary Q casted by Soldier76");
+	
+	if(FirstPersonCamera == NULL){
+		UE_LOG(LogTemp, Warning, TEXT("Camera component is null."));
+		return;
+	}
+
+	auto Location = FirstPersonCamera->GetComponentLocation();
+	auto Rotator = FirstPersonCamera->GetComponentRotation();
+
+	auto UltimateCone = GetWorld()->SpawnActor<ASoldier76Ultimate>(Soldier76UltimateCone, Location, Rotator);
+	
+
 }
 
 void USoldier76Skills::AbilityShiftPressed(){
