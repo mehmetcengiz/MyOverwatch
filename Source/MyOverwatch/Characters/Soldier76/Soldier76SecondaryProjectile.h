@@ -5,17 +5,17 @@
 #include "GameFramework/Actor.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "PhysicsEngine/RadialForceComponent.h"
-#include "Soldier76PrimaryProjectile.generated.h"
+#include "Soldier76SecondaryProjectile.generated.h"
 
 
 UCLASS()
-class MYOVERWATCH_API ASoldier76PrimaryProjectile : public AActor
+class MYOVERWATCH_API ASoldier76SecondaryProjectile : public AActor
 {
 	GENERATED_BODY()
 	
 public:	
 	// Sets default values for this actor's properties
-	ASoldier76PrimaryProjectile();
+	ASoldier76SecondaryProjectile();
 
 protected:
 	// Called when the game starts or when spawned

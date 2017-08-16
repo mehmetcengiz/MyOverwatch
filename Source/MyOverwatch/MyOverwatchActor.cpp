@@ -1,7 +1,7 @@
 // This is example game project by Mehmet Cengiz.Source available on github.com/mehmetcengiz/MyOverwatch 
 
 #include "MyOverwatch.h"
-#include "Components/CharacterHealthComponent.h"
+#include "./Components/CharacterHealthComponent.h"
 #include "MyOverwatchActor.h"
 
 // Sets default values

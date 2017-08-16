@@ -2,11 +2,11 @@
 
 #include "MyOverwatch.h"
 #include "GameFramework/DamageType.h"
-#include "Soldier76PrimaryProjectile.h"
+#include "Soldier76SecondaryProjectile.h"
 
 
 // Sets default values
-ASoldier76PrimaryProjectile::ASoldier76PrimaryProjectile()
+ASoldier76SecondaryProjectile::ASoldier76SecondaryProjectile()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = false;
@@ -24,18 +24,18 @@ ASoldier76PrimaryProjectile::ASoldier76PrimaryProjectile()
 }
 
 // Called when the game starts or when spawned
-void ASoldier76PrimaryProjectile::BeginPlay()
+void ASoldier76SecondaryProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	CollisionMesh->OnComponentHit.AddDynamic(this, &ASoldier76PrimaryProjectile::OnHit);
+	CollisionMesh->OnComponentHit.AddDynamic(this, &ASoldier76SecondaryProjectile::OnHit);
 }
 
-void ASoldier76PrimaryProjectile::LaunchProjectile(float speed) {
+void ASoldier76SecondaryProjectile::LaunchProjectile(float speed) {
 	ProjectileMovement->SetVelocityInLocalSpace(FVector::ForwardVector * speed);
 	ProjectileMovement->Activate();
 }
 
-void ASoldier76PrimaryProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
+void ASoldier76SecondaryProjectile::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit) {
 	ExplosionForce->FireImpulse();
 
 	UGameplayStatics::ApplyRadialDamage(

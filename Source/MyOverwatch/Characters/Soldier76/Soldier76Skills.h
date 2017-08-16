@@ -7,7 +7,7 @@
 
 
 class URaycastShootingComponent;
-class ASoldier76PrimaryProjectile;
+class ASoldier76SecondaryProjectile;
 class UCharacterSkillCaster;
 class ASoldier76Healer;
 
@@ -144,7 +144,7 @@ public:
 	int32 GetCurrentAmmo();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
-	TSubclassOf<ASoldier76PrimaryProjectile> ProjectileBluePrint;
+	TSubclassOf<ASoldier76SecondaryProjectile> ProjectileBluePrint;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<ASoldier76Healer> SoldierHealerBluePrint;

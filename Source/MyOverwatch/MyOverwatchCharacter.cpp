@@ -6,7 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "GameFramework/InputSettings.h"
 #include "MotionControllerComponent.h"
-#include "Components/CharacterHealthComponent.h"
+#include "./Components/CharacterHealthComponent.h"
 #include "CharacterSkillCaster.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);

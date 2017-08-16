@@ -2,7 +2,7 @@
 
 #include "MyOverwatch.h"
 #include "MyOverwatchCharacter.h"
-#include "Components/CharacterHealthComponent.h"
+#include "./Components/CharacterHealthComponent.h"
 #include "Soldier76Healer.h"
 
 

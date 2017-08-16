@@ -2,12 +2,12 @@
 
 #include "MyOverwatch.h"
 #include "Soldier76Skills.h"
-#include "Components/RaycastShootingComponent.h"
+#include "./Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 #include "CharacterSkillCaster.h"
-#include "Projectiles/Soldier76PrimaryProjectile.h"
-#include "Actors/Soldier76Healer.h"
+#include "./Characters/Soldier76/Soldier76SecondaryProjectile.h"
+#include "./Characters/Soldier76/Soldier76Healer.h"
 
 #define OUT
 
@@ -133,7 +133,7 @@ void USoldier76Skills::FireSecondary(){
 	Location += (ForwardVector * Offset);
 
 	auto Rotator = FirstPersonCamera->GetComponentRotation();
-	auto Projectile = GetWorld()->SpawnActor<ASoldier76PrimaryProjectile>(ProjectileBluePrint, Location, Rotator);
+	auto Projectile = GetWorld()->SpawnActor<ASoldier76SecondaryProjectile>(ProjectileBluePrint, Location, Rotator);
 	Projectile->LaunchProjectile(SecondaryProjectileSpeed);
 
 	//Firing sound.
