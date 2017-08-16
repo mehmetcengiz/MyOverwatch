@@ -9,7 +9,8 @@
 AMyOverwatchHUD::AMyOverwatchHUD()
 {
 	// Set the crosshair texture
-	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/FirstPerson/Textures/FirstPersonCrosshair"));
+	static ConstructorHelpers::FObjectFinder<UTexture2D> CrosshiarTexObj(TEXT("/Game/Characters/Textures/FirstPersonCrosshair"));
+
 	CrosshairTex = CrosshiarTexObj.Object;
 }
 

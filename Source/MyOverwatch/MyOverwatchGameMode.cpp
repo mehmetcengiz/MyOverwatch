@@ -26,7 +26,8 @@ AMyOverwatchGameMode::AMyOverwatchGameMode()
 	: Super()
 {
 	// set default pawn class to our Blueprinted character
-	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Characters/Soldier76/BP_Soldier76"));
+	static ConstructorHelpers::FClassFinder<APawn> PlayerPawnClassFinder(TEXT("/Game/Characters/Blueprints/Soldier76/BP_Soldier76"));
+
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 	// use our custom HUD class
