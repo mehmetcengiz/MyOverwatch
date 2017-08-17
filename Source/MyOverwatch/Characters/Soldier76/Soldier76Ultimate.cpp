@@ -2,6 +2,7 @@
 
 #include "MyOverwatch.h"
 #include "Soldier76Ultimate.h"
+#include "Soldier76Skills.h"
 
 
 // Sets default values
@@ -19,6 +20,19 @@ void ASoldier76Ultimate::BeginPlay()
 	
 }
 
+void ASoldier76Ultimate::OnComponentOverlap(AActor* OverlapActor){
+	//OverlapActor already casted to enemy.
+	//UE_LOG(LogTemp, Warning, TEXT("Overlaped actor name: %s"), *OverlapActor->GetName());
+	
+	CollidedActors.AddUnique(OverlapActor);
+}
+
+void ASoldier76Ultimate::OnComponentEndOverlap(AActor* OverlapActor){
+	
+	CollidedActors.Remove(OverlapActor);
+	
+}
+
 // Called every frame
 void ASoldier76Ultimate::Tick(float DeltaTime)
 {
@@ -28,11 +42,19 @@ void ASoldier76Ultimate::Tick(float DeltaTime)
 		SetActorLocation(CharacterCamera->GetComponentLocation());
 		SetActorRotation(CharacterCamera->GetComponentRotation());
 	}
-	
 
 }
 
 void ASoldier76Ultimate::SetCameraComponent(UCameraComponent* CameraCompToSet){
 	CharacterCamera = CameraCompToSet;
 }
+
+void ASoldier76Ultimate::GetEnemiesInCone(AActor* Enemy){
+	
+	if(CollidedActors.Num()>0){
+		Enemy = CollidedActors.Last(0);
+	}	
+}
+
+
 

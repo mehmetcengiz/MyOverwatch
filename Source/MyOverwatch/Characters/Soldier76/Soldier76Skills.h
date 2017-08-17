@@ -10,6 +10,7 @@ class URaycastShootingComponent;
 class ASoldier76SecondaryProjectile;
 class UCharacterSkillCaster;
 class ASoldier76Healer;
+class ASoldier76Ultimate;
 
 UENUM()
 enum class EFiringState : uint8{
@@ -120,7 +121,6 @@ protected:
 	UPROPERTY(BlueprintReadWrite, Category = "Setup")
 	UCameraComponent* FirstPersonCamera = nullptr;
 
-public:
 	/** Sound to play each time we fire */
 	UPROPERTY(EditDefaultsOnly,Category="Firing")
 	USoundBase* FireSound;
@@ -134,8 +134,8 @@ public:
 	USkeletalMeshComponent* Mesh1P;
 	
 
+public:
 
-	
 	
 	UFUNCTION(BlueprintCallable, Category = "Ammo")
 	int32 GetTotalAmmo();
@@ -163,6 +163,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);
+	
 
-
+	ASoldier76Ultimate* Soldier76Ultimate;
+	
 };

@@ -31,7 +31,7 @@ void URaycastShootingComponent::SetPlayerController(AController* controller){
 	PlayerController = controller;
 }
 
-bool URaycastShootingComponent::Shoot(){
+bool URaycastShootingComponent::Shoot(AActor* EnemyToDamage){
 
 	bool bIsEnemy = false; // return true if hits enemy.
 	//For multiple bullet increase RayPerShot.
@@ -59,14 +59,16 @@ bool URaycastShootingComponent::Shoot(){
 		if(GetWorld()->LineTraceSingleByChannel(*HitResult,StartTrace,EndTrace, ECC_Visibility,*CQP)){
 			DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
 			if(HitResult->GetActor() != NULL){
-				TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-				FDamageEvent DamageEvent(ValidDamageTypeClass);
-
-				if (PlayerController == NULL) { return false; }
 				
-				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
+				EnemyToDamage = HitResult->GetActor();
+				
+				//TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+				//FDamageEvent DamageEvent(ValidDamageTypeClass);
+
+				//if (PlayerController == NULL) { return false; }
+				
+				//HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
 				bIsEnemy = true; //TODO add tag later.
-				UE_LOG(LogTemp, Warning, TEXT("%f asdasd ") , bIsEnemy);
 			}
 		}
 	}

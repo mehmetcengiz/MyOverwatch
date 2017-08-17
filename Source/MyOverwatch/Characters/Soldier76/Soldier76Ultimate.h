@@ -18,13 +18,23 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	UFUNCTION(BlueprintCallable, Category = "Ultimate")
+	void OnComponentOverlap(AActor* OverlapActor);
+	UFUNCTION(BlueprintCallable, Category = "Ultimate")
+	void OnComponentEndOverlap(AActor* OverlapActor);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+	
+	void GetEnemiesInCone(AActor* Enemy);
 
 	void SetCameraComponent(UCameraComponent* CameraCompToSet);
 
+
+
 private:
 	UCameraComponent* CharacterCamera;
-	
+	TArray<AActor*> CollidedActors;
+
 };

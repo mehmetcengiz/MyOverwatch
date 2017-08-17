@@ -8,7 +8,7 @@
 #include "CharacterSkillCaster.h"
 #include "./Characters/Soldier76/Soldier76SecondaryProjectile.h"
 #include "./Characters/Soldier76/Soldier76Healer.h"
-#include "./Characters/Soldier76/Soldier76Ultimate.h"
+#include "Soldier76Ultimate.h"
 
 #define OUT
 
@@ -60,14 +60,25 @@ void USoldier76Skills::ShootPrimary(){
 	}
 	CurrentAmmo--;
 
-	// Cast a ray. If hits something charge ultimate.
-	if (RaycastShooting != NULL){
-		if (RaycastShooting->Shoot()){
-			if (SkillCaster != NULL){
+
+	AActor* EnemyToDamage = nullptr;
+	if(Soldier76Ultimate != NULL){
+		//EnemyToDamage =  Soldier76Ultimate->GetEnemiesInCone();
+		Soldier76Ultimate->GetEnemiesInCone(EnemyToDamage);
+	}// Cast a ray. If hits something charge ultimate.	
+	else if (RaycastShooting != NULL){
+		if (RaycastShooting->Shoot(EnemyToDamage) && SkillCaster != NULL){
 				SkillCaster->ChargeUltimate();
-			}
 		}
 	}
+	
+	if(EnemyToDamage!= NULL){
+		UE_LOG(LogTemp, Warning, TEXT("Enemy is not null: %s "), *EnemyToDamage->GetName());
+	}else{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Is Null"));
+	}
+	
+
 	//Play firing sound.
 	if (FireSound != NULL){
 		FVector ActorLocation;
@@ -161,7 +172,7 @@ void USoldier76Skills::AbilityE(){
 	auto HeallerActor = GetWorld()->SpawnActor<ASoldier76Healer>(SoldierHealerBluePrint, Location, FRotator(0, 0, 0));
 
 
-
+	
 
 }
 
@@ -178,6 +189,7 @@ void USoldier76Skills::AbilityUltimate(){
 
 	auto UltimateCone = GetWorld()->SpawnActor<ASoldier76Ultimate>(Soldier76UltimateCone, Location, Rotator);
 	UltimateCone->SetCameraComponent(FirstPersonCamera);
+	Soldier76Ultimate = UltimateCone;
 	
 
 }
@@ -226,3 +238,4 @@ void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
 void USoldier76Skills::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){
 	SkillCaster = SkillCasterToSet;
 }
+
