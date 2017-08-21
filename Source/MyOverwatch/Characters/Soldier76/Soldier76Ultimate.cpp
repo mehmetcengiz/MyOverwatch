@@ -49,10 +49,10 @@ void ASoldier76Ultimate::SetCameraComponent(UCameraComponent* CameraCompToSet){
 	CharacterCamera = CameraCompToSet;
 }
 
-void ASoldier76Ultimate::GetEnemiesInCone(AActor* Enemy){
+void ASoldier76Ultimate::GetEnemiesInCone(){
 	
 	if(CollidedActors.Num()>0){
-		Enemy = CollidedActors.Last(0);
+		//TODO return last enemy here.
 	}	
 }
 

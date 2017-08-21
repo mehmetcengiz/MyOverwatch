@@ -41,7 +41,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetPlayerController(AController* controller);
 
-	bool Shoot(AActor* EnemyToDamage);
+	bool Shoot();
 
 private:
 	UPROPERTY()
