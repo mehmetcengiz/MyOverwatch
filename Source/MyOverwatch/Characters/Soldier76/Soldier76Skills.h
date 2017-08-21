@@ -72,6 +72,9 @@ private:
 	float LastTimeFired;
 	bool bIsPlayerShooting;
 
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float DamageToApply = 40.f;
+
 
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadingRate = 2.f;

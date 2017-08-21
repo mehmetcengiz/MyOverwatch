@@ -28,15 +28,12 @@ public:
 
 	/** How much bounce for single shot. 0 for no bounce. */
 	UPROPERTY(EditDefaultsOnly,Category ="Setup", meta = (ClampMin = "0", ClampMax = "0.5"))
-	float BounceGap = 0.01f;
+	float RecoilGap = 0.01f;
 
 	/**Range of weapon. */
 	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0"))
 	float Range = 5000.f;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float DamageToApply = 40.f ;
-	
+		
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* cameraComponent);
 	

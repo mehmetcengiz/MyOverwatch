@@ -61,6 +61,7 @@ void USoldier76Skills::ShootPrimary(){
 	CurrentAmmo--;
 
 
+	//Get shooted enemy.
 	AActor* EnemyToDamage = nullptr;
 	if(Soldier76Ultimate != NULL){
 		EnemyToDamage = Soldier76Ultimate->GetEnemiesInCone();
@@ -73,10 +74,11 @@ void USoldier76Skills::ShootPrimary(){
 		}
 	}
 	
+	//Apply damage to enemy.
 	if(EnemyToDamage!= NULL){
-		UE_LOG(LogTemp, Warning, TEXT("Enemy is not null: %s "), *EnemyToDamage->GetName());
-	}else{
-		UE_LOG(LogTemp, Warning, TEXT("Enemy Is Null"));
+		TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+		FDamageEvent DamageEvent(ValidDamageTypeClass);
+		EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(),0), GetOwner());
 	}
 	
 

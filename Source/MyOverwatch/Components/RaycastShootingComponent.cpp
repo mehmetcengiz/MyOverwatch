@@ -43,9 +43,9 @@ bool URaycastShootingComponent::Shoot(){
 
 		//Add random bouncing to the ray.
 		float BounceX, BounceY, BounceZ;
-		BounceX = FMath::RandRange(-BounceGap, BounceGap);
-		BounceY = FMath::RandRange(-BounceGap, BounceGap);
-		BounceZ = FMath::RandRange(-BounceGap, BounceGap);
+		BounceX = FMath::RandRange(-RecoilGap, RecoilGap);
+		BounceY = FMath::RandRange(-RecoilGap, RecoilGap);
+		BounceZ = FMath::RandRange(-RecoilGap, RecoilGap);
 		FVector BounceVector = FVector(BounceX, BounceY, BounceZ);
 		ForwardVector += BounceVector;
 
@@ -57,14 +57,7 @@ bool URaycastShootingComponent::Shoot(){
 		if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECC_Visibility, *CQP)){
 			DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
 			if (HitResult->GetActor() != NULL){
-
-				//TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-				//FDamageEvent DamageEvent(ValidDamageTypeClass);
-
 				if (PlayerController == NULL){ return false; }
-
-				//HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController, GetOwner());
-
 				EnemyToHit = HitResult->GetActor();
 
 				bIsEnemy = true; //TODO add tag later.
