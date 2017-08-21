@@ -27,7 +27,7 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	
-	void GetEnemiesInCone();
+	AActor* GetEnemiesInCone();
 
 	void SetCameraComponent(UCameraComponent* CameraCompToSet);
 

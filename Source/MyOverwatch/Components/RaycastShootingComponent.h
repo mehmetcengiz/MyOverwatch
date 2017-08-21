@@ -18,6 +18,8 @@ public:
 protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
+	
+	AActor* EnemyToHit = nullptr;
 
 public:	
 	/** The number of bullet per shot. Example: For heavy weapon might be 1, for shotgun might be 8 */
@@ -43,7 +45,10 @@ public:
 
 	bool Shoot();
 
+	AActor* GetEnemyToHit();
+
 private:
+
 	UPROPERTY()
 	UCameraComponent* FirstPersonCamera = nullptr;
 

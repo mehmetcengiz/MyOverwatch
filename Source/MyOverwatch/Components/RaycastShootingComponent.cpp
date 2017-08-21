@@ -7,8 +7,7 @@
 
 
 // Sets default values for this component's properties
-URaycastShootingComponent::URaycastShootingComponent()
-{
+URaycastShootingComponent::URaycastShootingComponent(){
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = false;
@@ -17,10 +16,9 @@ URaycastShootingComponent::URaycastShootingComponent()
 
 
 // Called when the game starts
-void URaycastShootingComponent::BeginPlay()
-{
+void URaycastShootingComponent::BeginPlay(){
 	Super::BeginPlay();
-	
+
 }
 
 void URaycastShootingComponent::SetCameraComponent(UCameraComponent* cameraComponent){
@@ -35,16 +33,16 @@ bool URaycastShootingComponent::Shoot(){
 
 	bool bIsEnemy = false; // return true if hits enemy.
 	//For multiple bullet increase RayPerShot.
-	for (int32 i = 0; i<RayPerShot;i++){
-				
+	for (int32 i = 0; i < RayPerShot; i++){
+
 		//Get StartTrace and Forward Vector
 		FHitResult* HitResult = new FHitResult();
-		if (FirstPersonCamera == NULL) { return false; }
+		if (FirstPersonCamera == NULL){ return false; }
 		FVector StartTrace = FirstPersonCamera->GetComponentLocation();
 		FVector ForwardVector = FirstPersonCamera->GetForwardVector();
-	
+
 		//Add random bouncing to the ray.
-		float BounceX, BounceY,BounceZ;
+		float BounceX, BounceY, BounceZ;
 		BounceX = FMath::RandRange(-BounceGap, BounceGap);
 		BounceY = FMath::RandRange(-BounceGap, BounceGap);
 		BounceZ = FMath::RandRange(-BounceGap, BounceGap);
@@ -56,20 +54,25 @@ bool URaycastShootingComponent::Shoot(){
 		FCollisionQueryParams* CQP = new FCollisionQueryParams();
 
 		//Raycast
-		if(GetWorld()->LineTraceSingleByChannel(*HitResult,StartTrace,EndTrace, ECC_Visibility,*CQP)){
+		if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECC_Visibility, *CQP)){
 			DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
-			if(HitResult->GetActor() != NULL){
-				
+			if (HitResult->GetActor() != NULL){
+
 				TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
 				FDamageEvent DamageEvent(ValidDamageTypeClass);
 
-				if (PlayerController == NULL) { return false; }
-				
-				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController,GetOwner());
+				if (PlayerController == NULL){ return false; }
+
+				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController, GetOwner());
 				bIsEnemy = true; //TODO add tag later.
 			}
 		}
 	}
 	return bIsEnemy;
 }
+
+AActor* URaycastShootingComponent::GetEnemyToHit(){
+	return EnemyToHit;
+}
+
 

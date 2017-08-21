@@ -61,9 +61,9 @@ void USoldier76Skills::ShootPrimary(){
 	CurrentAmmo--;
 
 
-	//AActor* EnemyToDamage = nullptr;
+	AActor* EnemyToDamage = nullptr;
 	if(Soldier76Ultimate != NULL){
-		//EnemyToDamage =  Soldier76Ultimate->GetEnemiesInCone();
+		EnemyToDamage = Soldier76Ultimate->GetEnemiesInCone();
 		Soldier76Ultimate->GetEnemiesInCone();
 	}// Cast a ray. If hits something charge ultimate.	
 	else if (RaycastShooting != NULL){
@@ -72,11 +72,11 @@ void USoldier76Skills::ShootPrimary(){
 		}
 	}
 	
-	//if(EnemyToDamage!= NULL){
-	//	UE_LOG(LogTemp, Warning, TEXT("Enemy is not null: %s "), *EnemyToDamage->GetName());
-	//}else{
-	//	UE_LOG(LogTemp, Warning, TEXT("Enemy Is Null"));
-	//}
+	if(EnemyToDamage!= NULL){
+		UE_LOG(LogTemp, Warning, TEXT("Enemy is not null: %s "), *EnemyToDamage->GetName());
+	}else{
+		UE_LOG(LogTemp, Warning, TEXT("Enemy Is Null"));
+	}
 	
 
 	//Play firing sound.
