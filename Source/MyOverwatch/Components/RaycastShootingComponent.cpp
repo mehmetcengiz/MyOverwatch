@@ -58,12 +58,15 @@ bool URaycastShootingComponent::Shoot(){
 			DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
 			if (HitResult->GetActor() != NULL){
 
-				TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-				FDamageEvent DamageEvent(ValidDamageTypeClass);
+				//TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+				//FDamageEvent DamageEvent(ValidDamageTypeClass);
 
 				if (PlayerController == NULL){ return false; }
 
-				HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController, GetOwner());
+				//HitResult->GetActor()->TakeDamage(DamageToApply, DamageEvent, PlayerController, GetOwner());
+
+				EnemyToHit = HitResult->GetActor();
+
 				bIsEnemy = true; //TODO add tag later.
 			}
 		}

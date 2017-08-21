@@ -68,7 +68,8 @@ void USoldier76Skills::ShootPrimary(){
 	}// Cast a ray. If hits something charge ultimate.	
 	else if (RaycastShooting != NULL){
 		if (RaycastShooting->Shoot() && SkillCaster != NULL){
-				SkillCaster->ChargeUltimate();
+			EnemyToDamage = RaycastShooting->GetEnemyToHit();
+			SkillCaster->ChargeUltimate();
 		}
 	}
 	
