@@ -89,7 +89,7 @@ void UCharacterSkillCaster::AbilityJumpReleased() {
 
 void UCharacterSkillCaster::AbilityUltimate(){
 
-	if(CurrentUltimateCharge >= AbilityUltimateMaxCharge || true){ //TODO delete true.
+	if(CurrentUltimateCharge >= AbilityUltimateMaxCharge){
 		UE_LOG(LogTemp, Warning, TEXT("Ability Ultimate"));
 		OnAbilityUltimateCasted.Broadcast();
 		CurrentUltimateCharge = 0;
