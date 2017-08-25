@@ -5,10 +5,10 @@
 #include "./Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
-#include "CharacterSkillCaster.h"
 #include "./Characters/Soldier76/Soldier76SecondaryProjectile.h"
 #include "./Characters/Soldier76/Soldier76Healer.h"
 #include "Soldier76Ultimate.h"
+#include "./Components/ShootingComponent.h"
 
 #define OUT
 
@@ -22,119 +22,30 @@ USoldier76Skills::USoldier76Skills(){
 
 
 // Called when the game starts
-void USoldier76Skills::BeginPlay(){
+void USoldier76Skills::BeginPlay() {
 	Super::BeginPlay();
-	bIsPlayerShooting = false;
-	CurrentAmmo = TotalAmmo;
-
 	//TODO Bind the events of player skills.
-
+	ShootingComponent = GetOwner()->FindComponentByClass<UShootingComponent>();
 }
 
 
 // Called every frame
 void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-
-	if (bIsPlayerShooting && FiringState == EFiringState::READY && !bIsShiftCasted){ ShootPrimary(); }
-
-	if (FiringState == EFiringState::NOT_READY){ MakeReadyGunToNextShot(); }
-
-	if (FiringState == EFiringState::OUT_OF_AMMO){ ReloadGun(); }
-
-
-}
-
-
-void USoldier76Skills::ShootPrimary(){
-
-	FiringState = EFiringState::NOT_READY;
-	
-
-	
-	//If no bullet change firing state to Out_Of_Ammo.
-	if (CurrentAmmo <= 0){
-		FiringState = EFiringState::OUT_OF_AMMO;
-		return;
-	}
-	CurrentAmmo--;
-
-
-	//Get shooted enemy.
-	AActor* EnemyToDamage = nullptr;
-	if(Soldier76Ultimate != NULL){
-		EnemyToDamage = Soldier76Ultimate->GetEnemiesInCone();
-		Soldier76Ultimate->GetEnemiesInCone();
-	}// Cast a ray. If hits something charge ultimate.	
-	else if (RaycastShooting != NULL){
-		if (RaycastShooting->Shoot() && SkillCaster != NULL){
-			EnemyToDamage = RaycastShooting->GetEnemyToHit();
-			SkillCaster->ChargeUltimate();
-		}
-	}
-	
-	//Apply damage to enemy.
-	if(EnemyToDamage!= NULL){
-		TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-		FDamageEvent DamageEvent(ValidDamageTypeClass);
-		EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(),0), GetOwner());
-	}
-	
-
-	//Play firing sound.
-	if (FireSound != NULL){
-		FVector ActorLocation;
-		ActorLocation = GetOwner()->GetActorLocation();
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
-	}
-
-	//Play firing animation.
-	if (FireAnimation != NULL){
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if (AnimInstance != NULL){
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
 }
 
 //Soldier76 keeps shooting when player keep pressing button.
 void USoldier76Skills::FirePrimaryPressed(){
-	bIsPlayerShooting = true;
+	if (!ensure(ShootingComponent == NULL)) { return; }
+
+	UE_LOG(LogTemp, Warning, TEXT("shooting"));
+	ShootingComponent->SetPlayerIsShooting(true);
 }
 
 //Soldier76 stops shooting when player released button.
 void USoldier76Skills::FirePrimaryReleased(){
-	bIsPlayerShooting = false;
-}
-
-//Calls from MakeReadyGunToNextShot method with delay to Handle Firing Rate.
-void USoldier76Skills::HandleFiringRate(){
-	FiringState = EFiringState::READY;
-}
-
-//Handles firing rate.
-void USoldier76Skills::MakeReadyGunToNextShot(){
-	FiringState = EFiringState::GETTING_READY;
-	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::HandleFiringRate, PrimaryFiringRate, false);
-}
-
-//Reloading state. Reload Animation, Sound etc.
-void USoldier76Skills::ReloadGun(){
-	FiringState = EFiringState::RELOADING;
-	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &USoldier76Skills::Reload, ReloadingRate, false);
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Reloading Weapon!");
-	//TODO implement reload animation.
-
-}
-
-//Reloads bullets and makes ready to next shot.
-void USoldier76Skills::Reload(){
-	CurrentAmmo = TotalAmmo;
-	FiringState = EFiringState::READY;
-	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Gun Reloaded!");
+	if (!ensure(ShootingComponent == NULL)) { return; }
+	ShootingComponent->SetPlayerIsShooting(false);
 }
 
 void USoldier76Skills::FireSecondary(){
@@ -214,10 +125,6 @@ void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* 
 	Mesh1P = Mesh;
 }
 
-void USoldier76Skills::SetRaycastShootingComponent(URaycastShootingComponent* Raycast){
-	RaycastShooting = Raycast;
-}
-
 void USoldier76Skills::ChangeRunningSpeed(float speed){
 	MovementComponent->MaxWalkSpeed = speed;
 }
@@ -226,19 +133,12 @@ void USoldier76Skills::SetMovementComponent(UCharacterMovementComponent* Movemen
 	MovementComponent = MovementComponentToSet;
 }
 
-int32 USoldier76Skills::GetTotalAmmo(){
-	return TotalAmmo;
-}
-
-int32 USoldier76Skills::GetCurrentAmmo(){
-	return CurrentAmmo;
-}
-
 void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
 	FirstPersonCamera = CameraToSet;
 }
 
-void USoldier76Skills::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){
-	SkillCaster = SkillCasterToSet;
+void USoldier76Skills::SetShootingComponent(UShootingComponent* ShootingComponentToSet){
+	ShootingComponent = ShootingComponentToSet;
 }
+
 

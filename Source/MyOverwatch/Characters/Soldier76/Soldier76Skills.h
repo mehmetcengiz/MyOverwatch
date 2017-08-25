@@ -11,16 +11,8 @@ class ASoldier76SecondaryProjectile;
 class UCharacterSkillCaster;
 class ASoldier76Healer;
 class ASoldier76Ultimate;
+class UShootingComponent;
 
-UENUM()
-enum class EFiringState : uint8{
-	READY,
-	FIRING, 
-	NOT_READY,
-	GETTING_READY,
-	OUT_OF_AMMO,
-	RELOADING
-};
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class MYOVERWATCH_API USoldier76Skills : public UActorComponent
@@ -38,8 +30,6 @@ protected:
 	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	void ShootPrimary();
 
 	UFUNCTION(BlueprintCallable, Category= "SkillCasting")
 	void FirePrimaryPressed();
@@ -66,42 +56,15 @@ protected:
 	void AbilityJump();
 
 private:
-	//Primary firing.
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float PrimaryFiringRate =0.10f;
-	float LastTimeFired;
-	bool bIsPlayerShooting;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float DamageToApply = 40.f;
-
-
-	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadingRate = 2.f;
-
-	void MakeReadyGunToNextShot();
-	void HandleFiringRate();
-	void ReloadGun();
-	void Reload();
-
 	//Secondary firing.
 	UPROPERTY(EditDefaultsOnly)
 	float SecondaryProjectileSpeed = 4000;
-
-	//Magazine settings.
-	UPROPERTY(EditdefaultsOnly, Category = "Firing")
-	int32 TotalAmmo = 25;
-	int32 CurrentAmmo;
-
-	UPROPERTY()
-	URaycastShootingComponent* RaycastShooting = nullptr;
-	
+		
 	UPROPERTY()
 	UCharacterMovementComponent* MovementComponent= nullptr;
 
-	UPROPERTY(EditdefaultsOnly, Category = "Firing")
-	UCharacterSkillCaster* SkillCaster = nullptr;
-	
+	UPROPERTY()
+	UShootingComponent* ShootingComponent= nullptr;
 
 	//For Shift Ability.
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
@@ -118,8 +81,6 @@ private:
 
 
 protected:
-	UPROPERTY(BlueprintReadOnly, Category = "State")
-	EFiringState FiringState = EFiringState::READY;
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Setup")
 	UCameraComponent* FirstPersonCamera = nullptr;
@@ -138,13 +99,6 @@ protected:
 	
 
 public:
-
-	
-	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	int32 GetTotalAmmo();
-
-	UFUNCTION(BlueprintCallable, Category = "Ammo")
-	int32 GetCurrentAmmo();
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")
 	TSubclassOf<ASoldier76SecondaryProjectile> ProjectileBluePrint;
@@ -157,16 +111,12 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetRaycastShootingComponent(URaycastShootingComponent *Raycast);
-
+	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetCameraComponent(UCameraComponent* CameraToSet);
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);
-	
+	void SetShootingComponent(UShootingComponent* ShootingComponentToSet);
 
 	ASoldier76Ultimate* Soldier76Ultimate;
 	
