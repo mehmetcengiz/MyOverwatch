@@ -2,7 +2,6 @@
 
 #include "MyOverwatch.h"
 #include "Soldier76Skills.h"
-#include "./Components/RaycastShootingComponent.h"
 #include "Animation/AnimInstance.h"
 #include "Engine/Engine.h" //TODO delete later it is for screen debuging.
 #include "./Characters/Soldier76/Soldier76SecondaryProjectile.h"
@@ -25,7 +24,7 @@ USoldier76Skills::USoldier76Skills(){
 void USoldier76Skills::BeginPlay() {
 	Super::BeginPlay();
 	//TODO Bind the events of player skills.
-	ShootingComponent = GetOwner()->FindComponentByClass<UShootingComponent>();
+	//ShootingComponent = GetOwner()->FindComponentByClass<UShootingComponent>();
 }
 
 
@@ -36,16 +35,15 @@ void USoldier76Skills::TickComponent(float DeltaTime, ELevelTick TickType, FActo
 
 //Soldier76 keeps shooting when player keep pressing button.
 void USoldier76Skills::FirePrimaryPressed(){
-	if (!ensure(ShootingComponent == NULL)) { return; }
-
-	UE_LOG(LogTemp, Warning, TEXT("shooting"));
+	if (ShootingComponent == NULL) { return; }
 	ShootingComponent->SetPlayerIsShooting(true);
 }
 
 //Soldier76 stops shooting when player released button.
 void USoldier76Skills::FirePrimaryReleased(){
-	if (!ensure(ShootingComponent == NULL)) { return; }
+	if (ShootingComponent == NULL) { return; }
 	ShootingComponent->SetPlayerIsShooting(false);
+
 }
 
 void USoldier76Skills::FireSecondary(){
@@ -138,6 +136,7 @@ void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
 }
 
 void USoldier76Skills::SetShootingComponent(UShootingComponent* ShootingComponentToSet){
+	UE_LOG(LogTemp, Warning, TEXT("Shooting component is set"));
 	ShootingComponent = ShootingComponentToSet;
 }
 

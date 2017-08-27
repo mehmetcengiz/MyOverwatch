@@ -61,10 +61,10 @@ private:
 	float SecondaryProjectileSpeed = 4000;
 		
 	UPROPERTY()
-	UCharacterMovementComponent* MovementComponent= nullptr;
+	UCharacterMovementComponent* MovementComponent = nullptr;
 
 	UPROPERTY()
-	UShootingComponent* ShootingComponent= nullptr;
+	UShootingComponent* ShootingComponent = nullptr;
 
 	//For Shift Ability.
 	UPROPERTY(EditDefaultsOnly, Category = "Setup")

@@ -37,36 +37,36 @@ public:
 
 	UFUNCTION()
 	void Shoot();
-
 	void SetPlayerIsShooting(bool IsShootingToSet);
 
 protected:
+	/** Firing state*/
 	UPROPERTY(BlueprintReadWrite, Category = "Firing")
 	EFiringState FiringState = EFiringState::READY;
-
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float DamageToApply = 40.f;
-
+	/**Realoading Time*/
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float ReloadingRate = 2.f;
 
-	
-	//Primary firing.
+	/**Firing rate.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	float PrimaryFiringRate = 0.10f;
 	float LastTimeFired;
 	bool bIsPlayerShooting = false;
 
-	//Magazine settings.
+	/**Magazine settings*/
 	UPROPERTY(EditdefaultsOnly, Category = "Firing")
 	int32 TotalAmmo = 25;
 	int32 CurrentAmmo;
-	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetRaycastShootingComponent(URaycastShootingComponent* RaycastToSet);
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);
+	UPROPERTY(EditdefaultsOnly, Category = "Firing Type Raycast", meta = (EditCondition = "!bIsProjectileShooting"))
+	bool bIsRayCastShooting = false;
+
+	UPROPERTY(EditdefaultsOnly, Category = "Firing Type Projectile", meta = (EditCondition = "!bIsRayCastShooting"))
+	bool bIsProjectileShooting = false;
+
 
 	/** Sound to play each time we fire */
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
@@ -80,9 +80,18 @@ protected:
 	UPROPERTY()
 	USkeletalMeshComponent* Mesh1P;
 	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetRaycastShootingComponent(URaycastShootingComponent* RaycastToSet);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet);
+	
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh);
+
+	
 private:
 	URaycastShootingComponent* RaycastShooting = nullptr;
-
 	UCharacterSkillCaster* SkillCaster = nullptr;
 
 	void MakeReadyGunToNextShot();

@@ -25,13 +25,12 @@ void UShootingComponent::BeginPlay(){
 // Called every frame
 void UShootingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction){
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-	
+
 	if (bIsPlayerShooting && FiringState == EFiringState::READY /*&& !bIsShiftCasted*/) { Shoot(); }
 
 	if (FiringState == EFiringState::NOT_READY) { MakeReadyGunToNextShot(); }
 
 	if (FiringState == EFiringState::OUT_OF_AMMO) { ReloadGun(); }
-
 
 }
 
@@ -48,22 +47,31 @@ void UShootingComponent::Shoot(){
 	CurrentAmmo--;
 
 
-	//Get shooted enemy.
-	AActor* EnemyToDamage = nullptr;
-
-	if (RaycastShooting != NULL){
-		if (RaycastShooting->Shoot() && SkillCaster != NULL){
-			EnemyToDamage = RaycastShooting->GetEnemyToHit();
-			SkillCaster->ChargeUltimate();
-		}
+	if(bIsRayCastShooting){
+		//TODO implement Raycast Shooting
+	}else if (bIsProjectileShooting){
+		//TODO implement Projectile Shooting
+	}else{
+		UE_LOG(LogTemp, Error, TEXT("Both is projectile shooting and raycast shooting is false. Please enter a method."));
 	}
 
-	//Apply damage to enemy.
-	if (EnemyToDamage != NULL){
-		TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-		FDamageEvent DamageEvent(ValidDamageTypeClass);
-		EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
-	}
+
+	////Get shooted enemy.
+	//AActor* EnemyToDamage = nullptr;
+
+	//if (RaycastShooting != NULL){
+	//	if (RaycastShooting->Shoot() && SkillCaster != NULL){
+	//		EnemyToDamage = RaycastShooting->GetEnemyToHit();
+	//		SkillCaster->ChargeUltimate();
+	//	}
+	//}
+
+	////Apply damage to enemy.
+	//if (EnemyToDamage != NULL){
+	//	TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+	//	FDamageEvent DamageEvent(ValidDamageTypeClass);
+	//	EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
+	//}
 
 
 	//Play firing sound.
@@ -80,6 +88,7 @@ void UShootingComponent::Shoot(){
 			AnimInstance->Montage_Play(FireAnimation, 1.f);
 		}
 	}
+	
 }
 
 //Calls from MakeReadyGunToNextShot method with delay to Handle Firing Rate.
@@ -112,6 +121,7 @@ void UShootingComponent::Reload() {
 
 
 void UShootingComponent::SetPlayerIsShooting(bool IsShootingToSet){
+	
 	bIsPlayerShooting = IsShootingToSet;
 }
 
@@ -119,4 +129,9 @@ void UShootingComponent::SetRaycastShootingComponent(URaycastShootingComponent* 
 	RaycastShooting = RaycastToSet;
 }
 
-void UShootingComponent::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){ }
+void UShootingComponent::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){
+	
+}
+void UShootingComponent::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
+	Mesh1P = Mesh;
+}
