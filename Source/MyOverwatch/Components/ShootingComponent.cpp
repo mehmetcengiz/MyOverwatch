@@ -5,6 +5,7 @@
 #include "./Components/RaycastShootingComponent.h"
 #include "CharacterSkillCaster.h"
 
+
 // Sets default values for this component's properties
 UShootingComponent::UShootingComponent(){
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
@@ -19,6 +20,10 @@ UShootingComponent::UShootingComponent(){
 void UShootingComponent::BeginPlay(){
 	Super::BeginPlay();
 	CurrentAmmo = TotalAmmo;
+
+	FirstPersonCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
+	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
+	SkillCaster = GetOwner()->FindComponentByClass<UCharacterSkillCaster>();
 }
 
 
@@ -34,6 +39,34 @@ void UShootingComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
 }
 
+void UShootingComponent::PlayFiringSound(){
+	//Play firing sound.
+	if (FireSound != NULL){
+		FVector ActorLocation;
+		ActorLocation = GetOwner()->GetActorLocation();
+		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
+	}
+}
+
+void UShootingComponent::PlayFiringAnimation(){
+	//Play firing animation.
+	if (FireAnimation != NULL){
+		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
+		if (AnimInstance != NULL){
+			AnimInstance->Montage_Play(FireAnimation, 1.f);
+		}
+	}
+}
+
+void UShootingComponent::DamageToEnemy(AActor* EnemyToDamage){
+	//Apply damage to enemy.
+	if (EnemyToDamage != NULL){
+		TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+		FDamageEvent DamageEvent(ValidDamageTypeClass);
+		EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
+	}
+}
+
 void UShootingComponent::Shoot(){
 
 	FiringState = EFiringState::NOT_READY;
@@ -47,47 +80,20 @@ void UShootingComponent::Shoot(){
 	CurrentAmmo--;
 
 
+	//Get shooted enemy.
+	AActor* EnemyToDamage = nullptr;
+
 	if(bIsRayCastShooting){
-		//TODO implement Raycast Shooting
+		EnemyToDamage = RayShoot();
 	}else if (bIsProjectileShooting){
 		//TODO implement Projectile Shooting
 	}else{
 		UE_LOG(LogTemp, Error, TEXT("Both is projectile shooting and raycast shooting is false. Please enter a method."));
 	}
 
-
-	////Get shooted enemy.
-	//AActor* EnemyToDamage = nullptr;
-
-	//if (RaycastShooting != NULL){
-	//	if (RaycastShooting->Shoot() && SkillCaster != NULL){
-	//		EnemyToDamage = RaycastShooting->GetEnemyToHit();
-	//		SkillCaster->ChargeUltimate();
-	//	}
-	//}
-
-	////Apply damage to enemy.
-	//if (EnemyToDamage != NULL){
-	//	TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
-	//	FDamageEvent DamageEvent(ValidDamageTypeClass);
-	//	EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
-	//}
-
-
-	//Play firing sound.
-	if (FireSound != NULL){
-		FVector ActorLocation;
-		ActorLocation = GetOwner()->GetActorLocation();
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, ActorLocation);
-	}
-
-	//Play firing animation.
-	if (FireAnimation != NULL){
-		UAnimInstance* AnimInstance = Mesh1P->GetAnimInstance();
-		if (AnimInstance != NULL){
-			AnimInstance->Montage_Play(FireAnimation, 1.f);
-		}
-	}
+	DamageToEnemy(EnemyToDamage);
+	PlayFiringSound();
+	PlayFiringAnimation();
 	
 }
 
@@ -119,19 +125,46 @@ void UShootingComponent::Reload() {
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Gun Reloaded!");
 }
 
+AActor* UShootingComponent::RayShoot(){
+	
+	//Def programming
+	if (FirstPersonCamera == NULL || PlayerController == NULL){
+		UE_LOG(LogTemp, Error, TEXT("First Person Camera or PLayer Controller not found in Shooting component."));
+		return nullptr;
+	}
+
+	FHitResult* HitResult = new FHitResult();
+	FVector StartTrace = FirstPersonCamera->GetComponentLocation();
+	FVector ForwardVector = FirstPersonCamera->GetForwardVector();
+
+	//Add random bouncing to the ray.
+	float BounceX, BounceY, BounceZ;
+	BounceX = FMath::RandRange(-RecoilGap, RecoilGap);
+	BounceY = FMath::RandRange(-RecoilGap, RecoilGap);
+	BounceZ = FMath::RandRange(-RecoilGap, RecoilGap);
+	FVector BounceVector = FVector(BounceX, BounceY, BounceZ);
+	ForwardVector += BounceVector;
+
+	//Calculate EndTrace and create CQP.
+	FVector EndTrace = (ForwardVector * Range) + StartTrace;
+	FCollisionQueryParams* CQP = new FCollisionQueryParams();
+
+	//Raycast
+	if (GetWorld()->LineTraceSingleByChannel(*HitResult, StartTrace, EndTrace, ECC_Visibility, *CQP)) {
+		DrawDebugLine(GetWorld(), StartTrace, EndTrace, FColor::Green, true);
+		if (HitResult->GetActor() != NULL) {
+			return HitResult->GetActor();
+		}
+	}
+	return nullptr;
+}
+
 
 void UShootingComponent::SetPlayerIsShooting(bool IsShootingToSet){
 	
 	bIsPlayerShooting = IsShootingToSet;
 }
 
-void UShootingComponent::SetRaycastShootingComponent(URaycastShootingComponent* RaycastToSet){
-	RaycastShooting = RaycastToSet;
-}
-
-void UShootingComponent::SetCharacterSkillCaster(UCharacterSkillCaster* SkillCasterToSet){
-	
-}
 void UShootingComponent::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
 	Mesh1P = Mesh;
 }
