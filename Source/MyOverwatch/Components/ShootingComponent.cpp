@@ -88,11 +88,11 @@ void UShootingComponent::Shoot(){
 	//Get shooted enemy.
 
 
-	if(bIsRayCastShooting){
+	if(bEnableRayCastShooting){
 		AActor* EnemyToDamage = nullptr;
 		EnemyToDamage = RayShoot();
 		DamageToEnemy(EnemyToDamage);
-	}else if (bIsProjectileShooting){
+	}else if (bEnableProjectileShooting){
 		if (FirstPersonCamera == NULL) { return; }
 
 		auto Location = FirstPersonCamera->GetComponentLocation();
