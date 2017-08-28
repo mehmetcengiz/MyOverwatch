@@ -23,8 +23,10 @@ USoldier76Skills::USoldier76Skills(){
 // Called when the game starts
 void USoldier76Skills::BeginPlay() {
 	Super::BeginPlay();
-	//TODO Bind the events of player skills.
-	//ShootingComponent = GetOwner()->FindComponentByClass<UShootingComponent>();
+	
+	ShootingComponent = GetOwner()->FindComponentByClass<UShootingComponent>();
+	MovementComponent = GetOwner()->FindComponentByClass<UCharacterMovementComponent>();
+	FirstPersonCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
 }
 
 
@@ -49,7 +51,10 @@ void USoldier76Skills::FirePrimaryReleased(){
 void USoldier76Skills::FireSecondary(){
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Red, "Secondary fireSecondary casted by Soldier76");
 
-	if (FirstPersonCamera == NULL) { return; }
+	if (FirstPersonCamera == NULL){
+		UE_LOG(LogTemp, Error, TEXT("First person camera is null on secondary fire"));
+		return;
+	}
 
 	auto Location = FirstPersonCamera->GetComponentLocation();
 	auto ForwardVector = FirstPersonCamera->GetForwardVector();
@@ -125,19 +130,6 @@ void USoldier76Skills::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* 
 
 void USoldier76Skills::ChangeRunningSpeed(float speed){
 	MovementComponent->MaxWalkSpeed = speed;
-}
-
-void USoldier76Skills::SetMovementComponent(UCharacterMovementComponent* MovementComponentToSet){
-	MovementComponent = MovementComponentToSet;
-}
-
-void USoldier76Skills::SetCameraComponent(UCameraComponent* CameraToSet){
-	FirstPersonCamera = CameraToSet;
-}
-
-void USoldier76Skills::SetShootingComponent(UShootingComponent* ShootingComponentToSet){
-	UE_LOG(LogTemp, Warning, TEXT("Shooting component is set"));
-	ShootingComponent = ShootingComponentToSet;
 }
 
 

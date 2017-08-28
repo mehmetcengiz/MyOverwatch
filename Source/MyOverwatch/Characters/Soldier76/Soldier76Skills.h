@@ -76,10 +76,6 @@ private:
 	bool bIsShiftCasted = false;
 	void ChangeRunningSpeed(float speed);
 
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetMovementComponent(UCharacterMovementComponent* MovementComponentToSet);
-
-
 protected:
 	
 	UPROPERTY(BlueprintReadWrite, Category = "Setup")
@@ -112,12 +108,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void SetShootingSkeletalMeshComponent(USkeletalMeshComponent *Mesh);
 	
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetCameraComponent(UCameraComponent* CameraToSet);
-
-	UFUNCTION(BlueprintCallable, Category = "Setup")
-	void SetShootingComponent(UShootingComponent* ShootingComponentToSet);
-
 	ASoldier76Ultimate* Soldier76Ultimate;
 	
 };

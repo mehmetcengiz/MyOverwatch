@@ -46,6 +46,6 @@ void ASoldier76SecondaryProjectile::OnHit(UPrimitiveComponent* HitComponent, AAc
 		UDamageType::StaticClass(),
 		TArray<AActor*>()	//damage all actors.
 	);
-
+	
 	Destroy();
 }
