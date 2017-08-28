@@ -8,6 +8,7 @@
 class URaycastShootingComponent;
 class UCharacterSkillCaster;
 
+
 UENUM()
 enum class EFiringState : uint8 {
 	READY,
@@ -51,7 +52,7 @@ protected:
 	float DamageToApply = 40.f;
 	/**Realoading Time*/
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
-	float ReloadingRate = 2.f;
+	float ReloadingTime = 2.f;
 
 	/**Firing rate.*/
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
@@ -67,17 +68,19 @@ protected:
 	UPROPERTY(EditdefaultsOnly, Category = "Firing Type Raycast", meta = (EditCondition = "!bIsProjectileShooting"))
 	bool bIsRayCastShooting = false;
 	/** The number of bullet per shot. Example: For heavy weapon might be 1, for shotgun might be 8 */
-	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "1", ClampMax = "100"))
+	UPROPERTY(EditDefaultsOnly, Category = "Firing Type Raycast", meta = (ClampMin = "1", ClampMax = "100", EditCondition = "bIsRayCastShooting"))
 	int32 RayPerShot = 1;
 	/** How much bounce for single shot. 0 for no bounce. */
-	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0", ClampMax = "0.5"))
-	float RecoilGap = 0.01f;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing Type Raycast", meta = (ClampMin = "0", ClampMax = "0.5", EditCondition = "bIsRayCastShooting"))
+	float BounceGap = 0.01f;
 	/**Range of weapon. */
-	UPROPERTY(EditDefaultsOnly, Category = "Setup", meta = (ClampMin = "0"))
+	UPROPERTY(EditDefaultsOnly, Category = "Firing Type Raycast", meta = (ClampMin = "0", EditCondition = "bIsRayCastShooting"))
 	float Range = 5000.f;
 
 	UPROPERTY(EditdefaultsOnly, Category = "Firing Type Projectile", meta = (EditCondition = "!bIsRayCastShooting"))
 	bool bIsProjectileShooting = false;
+	UPROPERTY(EditdefaultsOnly, Category = "Firing Type Projectile", meta = (EditCondition = "bIsProjectileShooting"))
+	float ProjectileSpeed = 4000;
 
 
 	/** Sound to play each time we fire */
@@ -87,6 +90,10 @@ protected:
 	/** AnimMontage to play each time we fire */
 	UPROPERTY(EditDefaultsOnly, Category = "Firing")
 	UAnimMontage* FireAnimation;
+
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing Type Projectile", meta = (EditCondition = "bIsProjectileShooting"))
+	TSubclassOf<class AProjectile> ProjectileBluePrint;
 
 	/** Pawn mesh: 1st person view (arms; seen only by self) */
 	UPROPERTY()

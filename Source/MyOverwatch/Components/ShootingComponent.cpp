@@ -4,6 +4,7 @@
 #include "ShootingComponent.h"
 #include "./Components/RaycastShootingComponent.h"
 #include "CharacterSkillCaster.h"
+#include "./Characters/Projectile.h"
 
 
 // Sets default values for this component's properties
@@ -64,6 +65,10 @@ void UShootingComponent::DamageToEnemy(AActor* EnemyToDamage){
 		TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
 		FDamageEvent DamageEvent(ValidDamageTypeClass);
 		EnemyToDamage->TakeDamage(DamageToApply, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
+		//If hits enemy charge ultimate.
+		if (EnemyToDamage->ActorHasTag(FName("Enemy"))) {
+			SkillCaster->ChargeUltimate();
+		}
 	}
 }
 
@@ -81,17 +86,27 @@ void UShootingComponent::Shoot(){
 
 
 	//Get shooted enemy.
-	AActor* EnemyToDamage = nullptr;
+
 
 	if(bIsRayCastShooting){
+		AActor* EnemyToDamage = nullptr;
 		EnemyToDamage = RayShoot();
+		DamageToEnemy(EnemyToDamage);
 	}else if (bIsProjectileShooting){
-		//TODO implement Projectile Shooting
+		if (FirstPersonCamera == NULL) { return; }
+
+		auto Location = FirstPersonCamera->GetComponentLocation();
+		auto ForwardVector = FirstPersonCamera->GetForwardVector();
+		float Offset = 100;	//TODO tune offset after.
+		Location += (ForwardVector * Offset);
+
+		auto Rotator = FirstPersonCamera->GetComponentRotation();
+		auto Projectile = GetWorld()->SpawnActor<AProjectile>(ProjectileBluePrint, Location, Rotator);
+		Projectile->LaunchProjectile(ProjectileSpeed);
 	}else{
 		UE_LOG(LogTemp, Error, TEXT("Both is projectile shooting and raycast shooting is false. Please enter a method."));
 	}
 
-	DamageToEnemy(EnemyToDamage);
 	PlayFiringSound();
 	PlayFiringAnimation();
 	
@@ -112,7 +127,7 @@ void UShootingComponent::MakeReadyGunToNextShot() {
 void UShootingComponent::ReloadGun() {
 	FiringState = EFiringState::RELOADING;
 	FTimerHandle Handle;
-	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &UShootingComponent::Reload, ReloadingRate, false);
+	GetWorld()->GetTimerManager().SetTimer(OUT Handle, this, &UShootingComponent::Reload, ReloadingTime, false);
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Reloading Weapon!");
 	//TODO implement reload animation.
 
@@ -139,9 +154,9 @@ AActor* UShootingComponent::RayShoot(){
 
 	//Add random bouncing to the ray.
 	float BounceX, BounceY, BounceZ;
-	BounceX = FMath::RandRange(-RecoilGap, RecoilGap);
-	BounceY = FMath::RandRange(-RecoilGap, RecoilGap);
-	BounceZ = FMath::RandRange(-RecoilGap, RecoilGap);
+	BounceX = FMath::RandRange(-BounceGap, BounceGap);
+	BounceY = FMath::RandRange(-BounceGap, BounceGap);
+	BounceZ = FMath::RandRange(-BounceGap, BounceGap);
 	FVector BounceVector = FVector(BounceX, BounceY, BounceZ);
 	ForwardVector += BounceVector;
 
@@ -161,7 +176,6 @@ AActor* UShootingComponent::RayShoot(){
 
 
 void UShootingComponent::SetPlayerIsShooting(bool IsShootingToSet){
-	
 	bIsPlayerShooting = IsShootingToSet;
 }
 
