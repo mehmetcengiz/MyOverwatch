@@ -38,6 +38,7 @@ public:
 	void PlayFiringSound();
 	void PlayFiringAnimation();
 	void DamageToEnemy(AActor* EnemyToDamage);
+	void SpawnProjectile();
 
 	UFUNCTION()
 	void Shoot();
@@ -69,7 +70,7 @@ protected:
 	bool bEnableRayCastShooting = false;
 	/** The number of bullet per shot. Example: For heavy weapon might be 1, for shotgun might be 8 */
 	UPROPERTY(EditDefaultsOnly, Category = "Raycast Firing Type", meta = (ClampMin = "1", ClampMax = "100", EditCondition = "bEnableRayCastShooting"))
-	int32 RayPerShot = 1;
+	int32 TotalBulletPerShot = 1;
 	/** How much bounce for single shot. 0 for no bounce. */
 	UPROPERTY(EditDefaultsOnly, Category = "Raycast Firing Type", meta = (ClampMin = "0", ClampMax = "0.5", EditCondition = "bEnableRayCastShooting"))
 	float BounceGap = 0.01f;
