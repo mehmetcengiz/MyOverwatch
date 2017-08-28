@@ -47,5 +47,9 @@ void ASoldier76SecondaryProjectile::OnHit(UPrimitiveComponent* HitComponent, AAc
 		TArray<AActor*>()	//damage all actors.
 	);
 	
+	TSubclassOf<UDamageType> const ValidDamageTypeClass = TSubclassOf<UDamageType>(UDamageType::StaticClass());
+	FDamageEvent DamageEvent(ValidDamageTypeClass);
+	OtherActor->TakeDamage(ProjectileDamage, DamageEvent, UGameplayStatics::GetPlayerController(GetWorld(), 0), GetOwner());
+
 	Destroy();
 }
