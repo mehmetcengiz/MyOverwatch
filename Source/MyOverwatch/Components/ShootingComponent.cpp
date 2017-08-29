@@ -20,7 +20,7 @@ UShootingComponent::UShootingComponent(){
 // Called when the game starts
 void UShootingComponent::BeginPlay(){
 	Super::BeginPlay();
-	CurrentAmmo = TotalAmmo;
+	CurrentAmmo = MaxAmmo;
 
 	FirstPersonCamera = GetOwner()->FindComponentByClass<UCameraComponent>();
 	PlayerController = UGameplayStatics::GetPlayerController(GetWorld(), 0);
@@ -175,7 +175,7 @@ void UShootingComponent::ReloadGun() {
 
 //Reloads bullets and makes ready to next shot.
 void UShootingComponent::Reload() {
-	CurrentAmmo = TotalAmmo;
+	CurrentAmmo = MaxAmmo;
 	FiringState = EFiringState::READY;
 	GEngine->AddOnScreenDebugMessage(-1, 555.f, FColor::Green, "Gun Reloaded!");
 }
@@ -186,4 +186,12 @@ void UShootingComponent::SetPlayerIsShooting(bool IsShootingToSet){
 
 void UShootingComponent::SetShootingSkeletalMeshComponent(USkeletalMeshComponent* Mesh) {
 	Mesh1P = Mesh;
+}
+
+int32 UShootingComponent::GetMaxAmmo() {
+	return MaxAmmo;
+}
+
+int32 UShootingComponent::GetCurrentAmmo(){
+	return CurrentAmmo;
 }

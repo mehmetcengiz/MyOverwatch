@@ -5,6 +5,7 @@
 
 class UInputComponent;
 class UCharacterHealthComponent;
+class UShootingComponent;
 
 UCLASS(config=Game)
 class AMyOverwatchCharacter : public ACharacter
@@ -140,12 +141,20 @@ public:
 
 	float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
-	UCharacterHealthComponent* CharacterHealthComponent;
 	
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	UCharacterSkillCaster* GetCharacterSkillCasterComponent();
 
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	UCharacterHealthComponent* GetCharacterHealthComponent();
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	UShootingComponent* GetCharacterShootingComponent();
+
+	private:
+		UCharacterHealthComponent* CharacterHealthComponent;
+		UShootingComponent * ShootingComponent;
+
+
+
 };
 

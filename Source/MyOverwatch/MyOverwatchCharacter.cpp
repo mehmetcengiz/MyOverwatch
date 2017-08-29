@@ -8,6 +8,7 @@
 #include "MotionControllerComponent.h"
 #include "./Components/CharacterHealthComponent.h"
 #include "CharacterSkillCaster.h"
+#include "./Components/ShootingComponent.h"
 
 DEFINE_LOG_CATEGORY_STATIC(LogFPChar, Warning, All);
 
@@ -57,7 +58,8 @@ AMyOverwatchCharacter::AMyOverwatchCharacter()
 	CharacterSkillCaster = CreateDefaultSubobject<UCharacterSkillCaster>(TEXT("CharacterSkillCaster"));
 	//Character Health
 	CharacterHealthComponent = CreateDefaultSubobject<UCharacterHealthComponent>(TEXT("CharacterHealth"));
-
+	//Character Shooting
+	ShootingComponent = CreateDefaultSubobject<UShootingComponent>(TEXT("ShootingComponent"));
 
 }
 
@@ -275,4 +277,8 @@ UCharacterSkillCaster* AMyOverwatchCharacter::GetCharacterSkillCasterComponent()
 
 UCharacterHealthComponent* AMyOverwatchCharacter::GetCharacterHealthComponent() {
 	return CharacterHealthComponent;
+}
+
+UShootingComponent* AMyOverwatchCharacter::GetCharacterShootingComponent(){
+	return ShootingComponent;
 }

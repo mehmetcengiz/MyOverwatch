@@ -44,7 +44,7 @@ public:
 	void Shoot();
 	void SetPlayerIsShooting(bool IsShootingToSet);
 
-protected:
+public:
 	/** Firing state*/
 	UPROPERTY(BlueprintReadWrite, Category = "Firing")
 	EFiringState FiringState = EFiringState::READY;
@@ -63,7 +63,7 @@ protected:
 
 	/**Magazine settings*/
 	UPROPERTY(EditdefaultsOnly, Category = "Firing")
-	int32 TotalAmmo = 25;
+	int32 MaxAmmo = 25;
 	int32 CurrentAmmo;
 
 	UPROPERTY(EditdefaultsOnly, Category = "Raycast Firing Type", meta = (EditCondition = "!bEnableProjectileShooting"))
@@ -119,4 +119,10 @@ private:
 	void Reload();
 
 	AActor* RayShoot();
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "Getter")
+	int32 GetMaxAmmo();
+	UFUNCTION(BlueprintCallable, Category = "Getter")
+	int32 GetCurrentAmmo();
 };
